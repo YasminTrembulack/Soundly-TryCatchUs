@@ -1,54 +1,28 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ScrollView } from "react-native"; // <--- Importe ScrollView
-import PontoTuristicoCard from "./components/PontoTuristicoCard"; // <--- Importe o componente
+import "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+import ListaPontosTuristicos from "./screens/ListaPontosTuristicos";
+import DetalhesPontoTuristico from "./screens/DetalhesPontoTuristico";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <ScrollView style={styles.scrollViewContainer}>{/* <--- Usando ScrollView */}
-      <View style={styles.container}>
-        <Text style={styles.mainTitle}>Conheça Curitiba!</Text>{/* <--- Título principal */}
-        <PontoTuristicoCard
-          nome="Jardim Botânico"
-          descricao="Um dos mais famosos cartões-postais da cidade."
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="ListaPontos">
+        <Stack.Screen
+          name="ListaPontos"
+          component={ListaPontosTuristicos}
+          options={{ title: "Pontos Turísticos" }}
         />
-        <PontoTuristicoCard
-          nome="Ópera de Arame"
-          descricao="Teatro com estrutura tubular e teto transparente, em meio à natureza."
+
+        <Stack.Screen
+          name="DetalhesPonto"
+          component={DetalhesPontoTuristico}
+          options={{ title: "Detalhes do Ponto" }}
         />
-        <PontoTuristicoCard
-          nome="Parque Tanguá"
-          descricao="Antiga pedreira transformada em parque com cascata e mirante."
-        />
-        <PontoTuristicoCard
-          nome="Museu Oscar Niemeyer"
-          descricao="Conhecido como Museu do Olho, com arte moderna e contemporânea."
-        />
-        <StatusBar style="auto" />
-      </View>
-    </ScrollView>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollViewContainer: { // Estilo para o ScrollView
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
-
-  container: {
-    // Remova 'justifyContent: center' e 'alignItems: center'
-    // para permitir que os cards se posicionem naturalmente.
-    flex: 1,
-    backgroundColor: "#f5f5f5", // Fundo claro para o app
-    paddingTop: 50, // Espaço para a barra de status no topo
-  },
-
-  mainTitle: {
-    // Novo estilo para o título principal
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20,
-    color: "#333",
-  },
-});
