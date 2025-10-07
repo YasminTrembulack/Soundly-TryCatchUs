@@ -1,13 +1,12 @@
 // components/PontoTuristicoCard.js
-import { View, Text, StyleSheet } from "react-native"; // <--- Importe View, Text, StyleSheet
+import { View, Text, StyleSheet, Button } from "react-native"; // <--- Importe View, Text, StyleSheet
 
 // <--- O componente recebe 'props'
-
 const PontoTuristicoCard = (props) => {
   return (
     <View style={styles.card}>
       <Text style={styles.titulo}>{props.nome}</Text>{/* <--- Acessando props.nome */}
-      <Text style={styles.descricao}>{props.descricao}</Text>{/* <--- Acessando props.descricao */}
+      <Button title="Detalhes" onPress={props.onPress} />
     </View>
   );
 };
