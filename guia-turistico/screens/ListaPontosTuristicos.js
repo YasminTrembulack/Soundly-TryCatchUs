@@ -10,39 +10,60 @@ const ListaPontosTuristicos = () => {
   const handleGoToDetails = (pontoId, nomePonto, descricaoPonto) => {
     // <--- Navega para a tela 'DetalhesPonto' e passa parâmetros
     navigation.navigate("DetalhesPonto", {
-      pontoId: pontoId,
-      nomePonto: nomePonto,
-      descricaoPonto: descricaoPonto,
+      pontoDetalhes: {
+        id: pontoId,
+        nome: nomePonto,
+        descricao: descricaoPonto,
+        detalhesCompletos: descricaoPonto, // se quiser usar o mesmo texto
+      },
     });
   };
 
   return (
-    <ScrollView style={styles.scrollViewContainer}>{/* <--- Usando ScrollView */}
+    <ScrollView style={styles.scrollViewContainer}>
+      {/* <--- Usando ScrollView */}
       <View style={styles.container}>
-        <Text style={styles.mainTitle}>Conheça Curitiba!</Text>{/* <--- Título principal */}
+        <Text style={styles.mainTitle}>Conheça Curitiba!</Text>
+        {/* <--- Título principal */}
         <PontoTuristicoCard
           nome="Jardim Botânico"
-          onPress={() => handleGoToDetails(
-            "123", "Jardim Botânico", "Um dos mais famosos cartões-postais da cidade."
-          )}
+          onPress={() =>
+            handleGoToDetails(
+              "123",
+              "Jardim Botânico",
+              "Um dos mais famosos cartões-postais da cidade."
+            )
+          }
         />
         <PontoTuristicoCard
           nome="Ópera de Arame"
-          onPress={() => handleGoToDetails(
-            "124", "Ópera de Arame", "Teatro com estrutura tubular e teto transparente, em meio à natureza."
-          )}
+          onPress={() =>
+            handleGoToDetails(
+              "124",
+              "Ópera de Arame",
+              "Teatro com estrutura tubular e teto transparente, em meio à natureza."
+            )
+          }
         />
         <PontoTuristicoCard
           nome="Parque Tanguá"
-          onPress={() => handleGoToDetails(
-            "125", "Parque Tanguá", "Antiga pedreira transformada em parque com cascata e mirante."
-          )}
+          onPress={() =>
+            handleGoToDetails(
+              "125",
+              "Parque Tanguá",
+              "Antiga pedreira transformada em parque com cascata e mirante."
+            )
+          }
         />
         <PontoTuristicoCard
           nome="Museu Oscar Niemeyer"
-          onPress={() => handleGoToDetails(
-            "126", "Museu Oscar Niemeyer", "Conhecido como Museu do Olho, com arte moderna e contemporânea."
-          )}
+          onPress={() =>
+            handleGoToDetails(
+              "126",
+              "Museu Oscar Niemeyer",
+              "Conhecido como Museu do Olho, com arte moderna e contemporânea."
+            )
+          }
         />
         <StatusBar style="auto" />
       </View>
@@ -69,7 +90,8 @@ const ListaPontosTuristicos = () => {
 };
 
 const styles = StyleSheet.create({
-  scrollViewContainer: { // Estilo para o ScrollView
+  scrollViewContainer: {
+    // Estilo para o ScrollView
     flex: 1,
     backgroundColor: "#f5f5f5",
   },
