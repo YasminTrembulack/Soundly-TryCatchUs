@@ -9,8 +9,6 @@ dist/
 web-build/
 expo-env.d.ts
 
-__pycache__
-
 # Native
 .kotlin/
 *.orig.*
@@ -37,5 +35,9 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# generated native folders
+/ios
+/android
 
 .env
