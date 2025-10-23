@@ -1,5 +1,7 @@
 # 📱 Soundly
 
+ola!!!
+
 ## Especificação de Cada Projeto
 
 Projeto mobile em **React-Native** em que cada equipe apresenta, em formato de seminário, o resultado da criação de um app específico.
