@@ -6,12 +6,12 @@
     {
       "id": "zMR5qxhPZzzYd_j1pWA03",
       "type": "text",
-      "x": 642.0000076293945,
-      "y": 101.40001678466797,
-      "width": 131.61605834960938,
-      "height": 45,
+      "x": 1729.9999771118164,
+      "y": -360.9999313354492,
+      "width": 290.72523103623365,
+      "height": 99.39999389648438,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#6741d9",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -23,15 +23,15 @@
       "index": "b1P",
       "roundness": null,
       "seed": 1277109048,
-      "version": 106,
-      "versionNonce": 454172152,
+      "version": 240,
+      "versionNonce": 307264474,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1759965220297,
+      "updated": 1761775821798,
       "link": null,
       "locked": false,
       "text": "Soundly",
-      "fontSize": 36,
+      "fontSize": 79.51999511718755,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
@@ -1786,10 +1786,10 @@
     {
       "id": "F14dOLpq1wEURC4i8YrUG",
       "type": "arrow",
-      "x": 1756.9883315679065,
-      "y": -46.89365304064821,
-      "width": 13.757330615190085,
-      "height": 104.72189061744552,
+      "x": 1734.4059008132322,
+      "y": -55.97868280209754,
+      "width": 2.631113204803569,
+      "height": 120.91060488930452,
       "angle": 0,
       "strokeColor": "#2f9e44",
       "backgroundColor": "#b2f2bb",
@@ -1805,11 +1805,11 @@
         "type": 2
       },
       "seed": 819529784,
-      "version": 293,
-      "versionNonce": 1314095944,
+      "version": 303,
+      "versionNonce": 2118633581,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1759965192271,
+      "updated": 1761000935222,
       "link": null,
       "locked": false,
       "points": [
@@ -1818,8 +1818,8 @@
           0
         ],
         [
-          -13.757330615190085,
-          104.72189061744552
+          2.631113204803569,
+          120.91060488930452
         ]
       ],
       "lastCommittedPoint": null,
@@ -1877,7 +1877,7 @@
     {
       "id": "49ZbWMrSwwVmwImHp3pqq",
       "type": "rectangle",
-      "x": 1502.4052189422587,
+      "x": 1475.738552275592,
       "y": -118.05041951916283,
       "width": 290.05803096511045,
       "height": 58.9415731792834,
@@ -1896,8 +1896,8 @@
         "type": 3
       },
       "seed": 709019192,
-      "version": 257,
-      "versionNonce": 41563464,
+      "version": 267,
+      "versionNonce": 1945112493,
       "isDeleted": false,
       "boundElements": [
         {
@@ -1909,14 +1909,14 @@
           "type": "arrow"
         }
       ],
-      "updated": 1759965192270,
+      "updated": 1761000935221,
       "link": null,
       "locked": false
     },
     {
       "id": "Vtlcryn8S-7S5NnqPpjAn",
       "type": "text",
-      "x": 1518.534332081064,
+      "x": 1491.8676654143972,
       "y": -101.07963292952113,
       "width": 257.7998046875,
       "height": 25,
@@ -1933,11 +1933,11 @@
       "index": "b2M",
       "roundness": null,
       "seed": 799484728,
-      "version": 245,
-      "versionNonce": 252988488,
+      "version": 255,
+      "versionNonce": 336302605,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1759965192270,
+      "updated": 1761000935221,
       "link": null,
       "locked": false,
       "text": "Inicio - Usuário registrado",
