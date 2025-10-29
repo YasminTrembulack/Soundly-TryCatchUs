@@ -20,13 +20,13 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={globals.container}>
-      <Text style={globals.title}>Soundly 🎧</Text>
+      <Text style={globals.titleSoundly}>SoundLy</Text>
 
       <TextInput style={globals.input} placeholder="Email" />
       <TextInput style={globals.input} placeholder="Senha" secureTextEntry />
 
       <TouchableOpacity style={globals.button} onPress={handleLogin}>
-        <Text style={globals.buttonText}>Entrar</Text>
+        <Text style={globals.buttonText}>ENTRAR</Text>
       </TouchableOpacity>
 
       <Text style={globals.link} onPress={() => navigation.navigate("Register")}>

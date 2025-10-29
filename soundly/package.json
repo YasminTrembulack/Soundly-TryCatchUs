@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@expo-google-fonts/anonymous-pro": "^0.4.1",
+    "@expo-google-fonts/caveat": "^0.4.2",
+    "@expo-google-fonts/noto-serif": "^0.4.2",
     "@expo-google-fonts/roboto-condensed": "^0.4.2",
     "@react-navigation/bottom-tabs": "^7.4.9",
     "@react-navigation/native": "^7.1.18",

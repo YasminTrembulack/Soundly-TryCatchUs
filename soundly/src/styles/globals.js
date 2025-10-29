@@ -9,19 +9,29 @@ export default StyleSheet.create({
         alignItems: "center",
         padding: 20,
     },
+    titleSoundly: {
+        fontFamily: "Caveat_400Regular",
+        fontSize: 60,
+        fontWeight: "bold",
+        color: colors.accent,
+        marginBottom: 24,
+    },
     title: {
+        fontFamily: "RobotoCondensed_400Regular",
         fontSize: 24,
         fontWeight: "bold",
         color: colors.accent,
         marginBottom: 24,
     },
     text: {
+        fontFamily: "AnonymousPro_400Regular",
         fontSize: 16,
         color: colors.hellotrope,
         textAlign: "center",
     },
     input: {
         width: "100%",
+        fontFamily: "AnonymousPro_400Regular",
         borderWidth: 1,
         borderColor: colors.hellotrope,
         backgroundColor: colors.white,
@@ -39,10 +49,12 @@ export default StyleSheet.create({
     },
     buttonText: {
         color: colors.white,
-        fontWeight: "bold",
+        fontFamily: "AnonymousPro_400Regular",
+        fontWeight: 24,
         fontSize: 16,
     },
     link: {
+        fontFamily: "RobotoCondensed_400Regular",
         color: colors.accent,
         textAlign: "center",
         marginTop: 10,
