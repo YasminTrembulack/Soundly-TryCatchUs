@@ -1,18 +1,14 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import globals from "../styles/globals";
 
 export default function MusicasEAlbunsScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Músicas e Álbuns</Text>
-      <Button
-        title="Ver Detalhes"
-        onPress={() => navigation.navigate("Detalhes")}
-      />
+    <View style={globals.container}>
+      <Text style={globals.title}>Músicas e Álbuns</Text>
+      <TouchableOpacity style={globals.button} onPress={() => navigation.navigate("Detalhes")}>
+        <Text style={globals.buttonText}>Ver Detalhes</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  title: { fontSize: 24, fontWeight: "bold" },
-});

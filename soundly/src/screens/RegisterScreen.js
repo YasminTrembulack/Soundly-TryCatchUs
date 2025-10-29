@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { UserContext } from "../context/UserContext";
+import globals from "../styles/globals";
 
 export default function RegisterScreen({ navigation }) {
   const { login } = useContext(UserContext);
@@ -16,22 +17,17 @@ export default function RegisterScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Criar Conta</Text>
-      <TextInput style={styles.input} placeholder="Nome completo" />
-      <TextInput style={styles.input} placeholder="Email" />
-      <TextInput style={styles.input} placeholder="Senha" secureTextEntry />
-      <Button title="Registrar" onPress={() => handleRegister()} />
-      <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
+    <View style={globals.container}>
+      <Text style={globals.title}>Criar Conta</Text>
+      <TextInput style={globals.input} placeholder="Nome completo" />
+      <TextInput style={globals.input} placeholder="Email" />
+      <TextInput style={globals.input} placeholder="Senha" secureTextEntry />
+      <TouchableOpacity style={globals.button} onPress={() => handleRegister() }>
+        <Text style={globals.buttonText}>Registrar</Text>
+      </TouchableOpacity>
+      <Text style={globals.link} onPress={() => navigation.navigate("Login")}>
         Já tem conta? Entrar
       </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  title: { fontSize: 28, fontWeight: "bold", textAlign: "center", marginBottom: 20 },
-  input: { borderWidth: 1, borderColor: "#ccc", padding: 10, marginVertical: 5, borderRadius: 8 },
-  link: { textAlign: "center", color: "blue", marginTop: 10 },
-});
