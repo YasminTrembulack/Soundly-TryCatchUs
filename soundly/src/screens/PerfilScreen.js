@@ -1,18 +1,19 @@
 import { useContext } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { UserContext } from "../context/UserContext";
+import globals from "../styles/globals";
 
 export default function PerfilScreen({ navigation }) {
   const { user, logout } = useContext(UserContext);
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Nome: {user?.full_name}</Text>
-      <Text>Email: {user?.email}</Text>
-      <Text>Role: {user?.role}</Text>
-      <Button
-        title="Sair"
-        onPress={() => logout() }/>
+    <View style={globals.container}>
+      <Text style={globals.text}>Nome: {user?.full_name}</Text>
+      <Text style={globals.text}>Email: {user?.email}</Text>
+      <Text style={globals.text}>Role: {user?.role}</Text>
+      <TouchableOpacity style={globals.button} onPress={() => logout() }>
+        <Text style={globals.buttonText}>Sair</Text>
+      </TouchableOpacity>
     </View>
   );
 }
