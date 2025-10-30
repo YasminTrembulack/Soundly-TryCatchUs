@@ -1,9 +1,12 @@
+
 import { useContext, useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, Alert, TouchableOpacity } from "react-native";
+
 import { UserContext } from "../context/UserContext";
+import globals from "../styles/globals";
 
 export default function RegisterScreen({ navigation }) {
-  const { createUser, login } = useContext(UserContext);
+  const { createUser } = useContext(UserContext);
 
   // States para os inputs
   const [username, setUsername] = useState("");
@@ -34,18 +37,18 @@ export default function RegisterScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Criar Conta</Text>
+    <View style={globals.container}>
+      <Text style={globals.title}>Criar Conta</Text>
 
       <TextInput
-        style={styles.input}
+        style={globals.input}
         placeholder="Nome de usuário"
         value={username}
         onChangeText={setUsername} // atualiza o state
       />
 
       <TextInput
-        style={styles.input}
+        style={globals.input}
         placeholder="Senha"
         secureTextEntry
         value={password}
@@ -53,36 +56,19 @@ export default function RegisterScreen({ navigation }) {
       />
 
       <TextInput
-        style={styles.input}
+        style={globals.input}
         placeholder="Confirmar senha"
         secureTextEntry
         value={confirmPassword}
         onChangeText={setConfirmPassword}
       />
+      <TouchableOpacity style={globals.button} onPress={handleRegister}>
+        <Text style={globals.buttonText}>Registrar</Text>
+      </TouchableOpacity>
 
-      <Button title="Registrar" onPress={handleRegister} />
-
-      <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
+      <Text style={globals.link} onPress={() => navigation.navigate("Login")}>
         Já tem conta? Entrar
       </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    marginVertical: 5,
-    borderRadius: 8,
-  },
-  link: { textAlign: "center", color: "blue", marginTop: 10 },
-});

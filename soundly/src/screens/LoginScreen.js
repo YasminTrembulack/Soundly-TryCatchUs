@@ -1,5 +1,8 @@
 import { useContext, useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, Alert, TouchableOpacity } from "react-native";
+
+import globals from "../styles/globals";
+
 import { UserContext } from "../context/UserContext";
 
 export default function LoginScreen({ navigation }) {
@@ -30,36 +33,31 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Soundly 🎧</Text>
+    <View style={globals.container}>
+      <Text style={globals.titleSoundly}>Soundly</Text>
 
       <TextInput
-        style={styles.input}
+        style={globals.input}
         placeholder="Username"
         value={username}
         onChangeText={setUsername}
       />
 
       <TextInput
-        style={styles.input}
+        style={globals.input}
         placeholder="Senha"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
       />
 
-      <Button title="Entrar" onPress={handleLogin} />
+      <TouchableOpacity style={globals.button} onPress={handleLogin}>
+        <Text style={globals.buttonText}>ENTRAR</Text>
+      </TouchableOpacity>
 
-      <Text style={styles.link} onPress={() => navigation.navigate("Register")}>
+      <Text style={globals.link} onPress={() => navigation.navigate("Register")}>
         Criar conta
       </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  title: { fontSize: 32, fontWeight: "bold", textAlign: "center", marginBottom: 20 },
-  input: { borderWidth: 1, borderColor: "#ccc", padding: 10, marginVertical: 5, borderRadius: 8 },
-  link: { textAlign: "center", color: "blue", marginTop: 10 },
-});
