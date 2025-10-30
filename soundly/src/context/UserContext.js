@@ -33,7 +33,6 @@ export function UserProvider({ children }) {
       password,
       role
     };
-    console.log(newUser);
 
     users.push(newUser);
     await saveUsers(users);
