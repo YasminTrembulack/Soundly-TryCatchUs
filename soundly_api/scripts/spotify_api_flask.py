@@ -2,10 +2,11 @@ import os
 import base64
 import requests
 import urllib.parse
+from dotenv import load_dotenv
 from flask import Flask, redirect, request
 
 app = Flask(__name__)
-
+load_dotenv()
 # ___________________________ https://developer.spotify.com/dashboard ___________________________
 
 CLIENT_ID = os.environ['SPOTIFY_DEV_CLIENT_ID']

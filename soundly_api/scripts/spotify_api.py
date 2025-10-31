@@ -1,13 +1,13 @@
 import os
 import base64
 import requests
+from dotenv import load_dotenv
 
 # Soundly
-
+load_dotenv()
 
 # Substitua pelas suas credenciais do Spotify Developer
 # ___________________________ https://developer.spotify.com/dashboard ___________________________
-
 
 CLIENT_ID = os.environ['SPOTIFY_DEV_CLIENT_ID']
 CLIENT_SECRET = os.environ['SPOTIFY_DEV_CLIENT_SECRET']
