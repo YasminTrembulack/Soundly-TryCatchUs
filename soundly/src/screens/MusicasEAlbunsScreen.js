@@ -100,15 +100,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#0C0C0C', // Preto puro
   },
   
-  // CABEÇALHO
+  // CABEÇALHO - AZUL DOMINANTE
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
     paddingTop: 60,
-    backgroundColor: '#1A1A1A', // Cinza escuro
-    borderBottomWidth: 1,
+    backgroundColor: '#0B3B85', // Azul escuro forte
+    borderBottomWidth: 2,
     borderBottomColor: '#3B82F6', // Azul principal
   },
   headerTitle: {
@@ -134,20 +134,20 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF', // Branco
+    color: '#8FD9FF', // Azul claro
     marginBottom: 20,
   },
 
-  // SEÇÕES
+  // SEÇÕES - ROXO APENAS NOS TÍTULOS
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#BB86FC', // Roxo aceso
+    color: '#BB86FC', // Roxo apenas aqui
     marginTop: 20,
     marginBottom: 10,
   },
 
-  // CARDS DE MÚSICA
+  // CARDS DE MÚSICA - AZUL
   horizontalScroll: {
     flexDirection: 'row',
   },
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   musicTitle: {
-    color: '#FFFFFF', // Branco
+    color: '#8FD9FF', // Azul claro
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 14,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 
-  // GRID DE ÁLBUNS
+  // GRID DE ÁLBUNS - AZUL
   albumGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -192,14 +192,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#9B6CFC', // Roxo suave
+    borderColor: '#3B82F6', // Azul principal
   },
   albumEmoji: {
     fontSize: 40,
     marginBottom: 8,
   },
   albumTitle: {
-    color: '#FFFFFF', // Branco
+    color: '#8FD9FF', // Azul claro
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 14,
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 
-  // CARDS DE ARTISTAS
+  // CARDS DE ARTISTAS - AZUL
   artistCard: {
     backgroundColor: '#1A1A1A', // Cinza escuro
     padding: 20,
@@ -222,14 +222,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#8FD9FF', // Azul claro
+    borderColor: '#3B82F6', // Azul principal
   },
   artistEmoji: {
     fontSize: 30,
     marginBottom: 8,
   },
   artistName: {
-    color: '#FFFFFF', // Branco
+    color: '#8FD9FF', // Azul claro
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 12,
