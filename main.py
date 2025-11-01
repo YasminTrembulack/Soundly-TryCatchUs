@@ -101,7 +101,7 @@ def list_artists(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 
 
 if __name__ == "__main__":
-    host = "127.0.0.1"
-    port = 8000
+    host = "0.0.0.0"
+    port = int(os.environ.get("PORT", 8000))
     print(f"🚀 API rodando em: http://{host}:{port}")
-    uvicorn.run("main:app", host=host, port=port, reload=True)
+    uvicorn.run("main:app", host=host, port=port, reload=False)
