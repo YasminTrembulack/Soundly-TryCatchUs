@@ -1,16 +1,24 @@
 # ==============================
 # 📦 IMPORTS
 # ==============================
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, HTTPException, Header, Query
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 
 import uvicorn
 
-from database import SessionLocal, engine, Base
-from models import Track, Album, Artist
-from schemas import TrackSchema, AlbumSchema, ArtistSchema
+from app.database import SessionLocal, engine, Base
+from app.models import Track, Album, Artist
+from app.schemas import TrackSchema, AlbumSchema, ArtistSchema
 
+
+# ==============================
+# 🔹 CARREGAR VARIÁVEIS DE AMBIENTE
+# ==============================
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
 
 # ==============================
 # 🔹 CONFIGURAÇÃO DO BANCO
@@ -34,6 +42,18 @@ def get_db():
     finally:
         db.close()
 
+
+# ==============================
+# 🔹 DEPENDÊNCIA DE AUTENTICAÇÃO
+# ==============================
+def verify_api_key(authorization: Optional[str] = Header(None)):
+    if API_KEY:
+        if authorization != API_KEY:
+            raise HTTPException(
+                status_code=401,
+                detail="API key inválida ou ausente. Use o header Authorization."
+            )
+
 # ==============================
 # 🔹 ENDPOINTS
 # ==============================
@@ -52,7 +72,7 @@ def index():
         "message": "Bem-vindo à Soundly API 🎵"
     }
 
-@app.get("/tracks", response_model=List[TrackSchema])
+@app.get("/tracks", response_model=List[TrackSchema], dependencies=[Depends(verify_api_key)])
 def list_tracks(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     tracks = db.query(Track).offset(skip).limit(limit).all()
     
@@ -63,11 +83,10 @@ def list_tracks(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return tracks
 
 
-@app.get("/albums", response_model=List[AlbumSchema])  # inclui orm_mode
+@app.get("/albums", response_model=List[AlbumSchema], dependencies=[Depends(verify_api_key)])
 def list_albums(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     albums = db.query(Album).offset(skip).limit(limit).all()
     
-    # Converte release_date para string
     for album in albums:
         if album.release_date:
             album.release_date = album.release_date.isoformat()
@@ -75,7 +94,7 @@ def list_albums(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return albums
 
 
-@app.get("/artists", response_model=List[ArtistSchema])
+@app.get("/artists", response_model=List[ArtistSchema], dependencies=[Depends(verify_api_key)])
 def list_artists(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     artists = db.query(Artist).offset(skip).limit(limit).all()
     return artists

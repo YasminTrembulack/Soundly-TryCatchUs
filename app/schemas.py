@@ -7,7 +7,7 @@ class AlbumImageSchema(BaseModel):
     height: Optional[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class AlbumSchema(BaseModel):
     id: str
@@ -21,7 +21,7 @@ class AlbumSchema(BaseModel):
     images: List[AlbumImageSchema] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ArtistSchema(BaseModel):
     id: str
@@ -32,7 +32,7 @@ class ArtistSchema(BaseModel):
     external_url: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class TrackSchema(BaseModel):
     id: str
@@ -53,4 +53,4 @@ class TrackSchema(BaseModel):
     artists: List[ArtistSchema] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True

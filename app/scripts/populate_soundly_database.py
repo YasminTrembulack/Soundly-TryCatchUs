@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from sqlalchemy import create_engine, Column, String, Integer, Boolean, ForeignKey, Date, Table
@@ -7,10 +8,13 @@ from pydantic import BaseModel, HttpUrl
 from typing import List, Optional
 import datetime
 
+
+load_dotenv()
+
 # ========================
 # 🔹 CONFIGURAÇÃO BANCO
 # ========================
-DATABASE_URL = "mysql+mysqlconnector://root:root@localhost:3306/soundly"
+DATABASE_URL = "mysql://umegzx9ur6qzv9ma:EzdVwBrYJRTasbcPigvp@byapgplisxz67fl7uofw-mysql.services.clever-cloud.com:3306/byapgplisxz67fl7uofw"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
@@ -151,17 +155,17 @@ SPOTIFY_DEV_CLIENT_ID=os.environ['SPOTIFY_DEV_CLIENT_ID']
 auth_manager = SpotifyClientCredentials(client_id=SPOTIFY_DEV_CLIENT_ID, client_secret=SPOTIFY_DEV_CLIENT_SECRET)
 sp = spotipy.Spotify(auth_manager=auth_manager)
 
+# 5bKoH0s8rTnFLanGOKCgI8 #! 100
+# 1zQNw7zPOx9PN5sucALUq5 #! 88
+# 1p3wmZOwYi1A1JeSj7XTOf #! 440
+# 4GAH9YrXlZ530xK32DLcpG #! 49
+# 4wjjZJW8r5sSv3CyCCab01 #! 306
+# 7C76MN1p9n6GfqkHCjbzxU #! 900
 
 # 3JxYCQeXAy64gZC1jXRP02 #! 92
-# 7C76MN1p9n6GfqkHCjbzxU #! 900
-# 4wjjZJW8r5sSv3CyCCab01 #! 306
-# 5bKoH0s8rTnFLanGOKCgI8 #! 100
-# 1p3wmZOwYi1A1JeSj7XTOf #! 440
 # 3XFTlcDyym1mOO2Xgn1khe #! 101
 # 6fCNYoIj0C2A53VuCaN503 #! 1.739 
-# 4GAH9YrXlZ530xK32DLcpG #! 49
-# 1zQNw7zPOx9PN5sucALUq5 #! 88
-PLAYLIST_ID = "1zQNw7zPOx9PN5sucALUq5"
+PLAYLIST_ID = "7C76MN1p9n6GfqkHCjbzxU"
 
 
 # ========================
@@ -267,7 +271,8 @@ while True:
                 )
                 session.add(artist)
             track.artists.append(artist)
-        
+    
+    session.commit()
         
 
 session.commit()

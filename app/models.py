@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer, Boolean, Date, ForeignKey, Table
 from sqlalchemy.orm import relationship
-from database import Base
+from app.database import Base
 
 # Relação M:N entre tracks e artists
 track_artists = Table(
