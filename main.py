@@ -1,14 +1,15 @@
 # ==============================
 # 📦 IMPORTS
 # ==============================
-from math import ceil
 import os
-from dotenv import load_dotenv
-from fastapi import FastAPI, Depends, HTTPException, Header, Query
-from sqlalchemy.orm import Session
-from typing import List, Optional
-
 import uvicorn
+
+from math import ceil
+from typing import  Optional
+from dotenv import load_dotenv
+from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, Depends, HTTPException, Header, Query
 
 from app.database import SessionLocal, engine, Base
 from app.models import Track, Album, Artist
@@ -31,6 +32,14 @@ Base.metadata.create_all(bind=engine)
 # 🔹 INICIALIZAÇÃO DO APP
 # ==============================
 app = FastAPI(title="Soundly API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # ==============================
