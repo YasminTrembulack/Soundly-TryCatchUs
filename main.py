@@ -156,6 +156,58 @@ def list_artists(
     }
 
 
+@app.get(
+    "/albums/{album_id}", 
+    response_model=AlbumSchema, 
+    dependencies=[Depends(verify_api_key)]
+)
+def get_album_by_id(album_id: str, db: Session = Depends(get_db)):
+    album = db.query(Album).filter(Album.id == album_id).first()
+    if not album:
+        raise HTTPException(status_code=404, detail="Álbum não encontrado.")
+    return AlbumSchema.model_validate(album)
+
+
+@app.get(
+    "/tracks/{track_id}", 
+    response_model=TrackSchema, 
+    dependencies=[Depends(verify_api_key)]
+)
+def get_track_by_id(track_id: str, db: Session = Depends(get_db)):
+    track = db.query(Track).filter(Track.id == track_id).first()
+    if not track:
+        raise HTTPException(status_code=404, detail="Música não encontrada.")
+    return TrackSchema.model_validate(track)
+
+
+@app.get(
+    "/albums/search", 
+    dependencies=[Depends(verify_api_key)]
+)
+def search_albums(
+    title: Optional[str] = Query(None, description="Parte do nome do álbum"),
+    artist: Optional[str] = Query(None, description="Parte do nome do artista"),
+    db: Session = Depends(get_db)
+):
+    query = db.query(Album)
+
+    if title:
+        query = query.filter(Album.name.ilike(f"%{title}%"))
+
+    if artist:
+        query = query.join(Album.artists).filter(Artist.name.ilike(f"%{artist}%"))
+
+    albums = query.all()
+
+    if not albums:
+        raise HTTPException(status_code=404, detail="Nenhum álbum encontrado com esses filtros.")
+
+    return [AlbumSchema.model_validate(a) for a in albums]
+
+
+# ==============================
+# 🚀 MAIN
+# ==============================
 if __name__ == "__main__":
     host = "0.0.0.0"
     port = int(os.environ.get("PORT", 8000))
