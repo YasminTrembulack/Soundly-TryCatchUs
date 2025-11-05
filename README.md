@@ -10,7 +10,7 @@ Projeto mobile em **React-Native** em que cada equipe apresenta, em formato de s
 
 ## 🎵 App de Músicas e Álbuns
 
-**Tema:** Um aplicativo para explorar músicas e álbuns de artistas.
+**Tema:** Um aplicativo para explorar Álbuns de artistas.
 
 **API Sugerida:** [TheAudioDB API](https://www.theaudiodb.com/)
 
