@@ -183,9 +183,9 @@ def list_albums(
         query = query.filter(Album.name.ilike(f"%{title}%"))
 
     if artist:
-        query = query.join(Album.artists).filter(Artist.name.ilike(f"%{artist}%")).distinct()
+        query = query.join(Album.artists).filter(Artist.name.ilike(f"%{artist}%"))
     
-    total = query.distinct().count()
+    total = query.count()
     albums = query.offset(skip).limit(limit).all()
     
     for album in albums:
