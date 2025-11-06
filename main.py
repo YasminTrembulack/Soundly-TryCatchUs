@@ -193,6 +193,10 @@ def list_albums(
             album.release_date = album.release_date.isoformat()
 
     return {
+        "filters": {
+            "title": title,
+            "artist": artist
+        },
         "pagination": {
             "total_items": total,
             "page": (skip // limit) + 1,
