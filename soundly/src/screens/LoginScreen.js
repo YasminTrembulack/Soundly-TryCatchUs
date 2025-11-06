@@ -6,51 +6,83 @@ import {
   TextInput, 
   TouchableOpacity, 
   Alert,
-  StyleSheet 
+  StyleSheet
 } from 'react-native';
 import { UserContext } from '../context/UserContext';
 
-// ESTILOS FICAM JUNTOS COM O COMPONENTE
+// PALETA DE CORES
+const colors = {
+  primary: '#7B2CBF',     // Roxo principal (French violet)
+  secondary: '#5A189A',   // Roxo escuro (Russian violet)
+  dark: '#240046',        // Roxo muito escuro
+  light: '#C77DFF',       // Roxo claro
+  accent: '#E0AAFF',      // Roxo muito claro
+  background: '#070110',  // Fundo preto azulado
+  text: '#FFFFFF',        // Texto branco
+  inputBackground: '#100039' // Fundo dos inputs
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#fff'
+    backgroundColor: colors.background,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontFamily: "Caveat_400Regular",
+    fontSize: 60,
+    fontWeight: "bold",
+    color: colors.accent,
     textAlign: 'center',
-    marginBottom: 40,
-    color: '#007AFF'
+    marginBottom: 50,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: colors.light,
+    fontWeight: '600'
   },
   input: {
     height: 50,
+    backgroundColor: colors.inputBackground,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
+    borderColor: colors.primary,
+    borderRadius: 10,
     paddingHorizontal: 15,
-    marginBottom: 15,
-    fontSize: 16
+    marginBottom: 20,
+    fontSize: 16,
+    color: colors.text
   },
   button: {
     height: 50,
-    backgroundColor: '#007AFF',
-    borderRadius: 8,
+    backgroundColor: colors.primary,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 15
+    marginBottom: 20,
+    marginTop: 10
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 16,
+    color: colors.text,
+    fontSize: 18,
     fontWeight: 'bold'
   },
-  link: {
-    color: '#007AFF',
-    textAlign: 'center',
-    fontSize: 14
+  registerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  registerText: {
+    color: colors.light,
+    fontSize: 16,
+  },
+  registerLink: {
+    color: colors.accent,
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 5,
   }
 });
 
@@ -58,6 +90,13 @@ export default function LoginScreen({ navigation }) {
   const { login } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  // Configura o header da tela para não mostrar título
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -77,18 +116,24 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Soundly</Text>
+      <Text style={styles.title}>SoundLY</Text>
       
+      <Text style={styles.label}>Username:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        placeholder="Digite seu login"
+        placeholderTextColor={colors.light}
         value={username}
         onChangeText={setUsername}
+        autoCapitalize="none"
+        keyboardType="email-address"
       />
       
+      <Text style={styles.label}>Senha:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Senha"
+        placeholder="Digite sua senha"
+        placeholderTextColor={colors.light}
         secureTextEntry
         value={password}
         onChangeText={setPassword}
@@ -97,10 +142,14 @@ export default function LoginScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>ENTRAR</Text>
       </TouchableOpacity>
-      
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.link}>Criar conta</Text>
-      </TouchableOpacity>
+
+      {/* Container para o texto de cadastro - CLICÁVEL */}
+      <View style={styles.registerContainer}>
+        <Text style={styles.registerText}>Não possui conta ainda?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.registerLink}>Cadastre-se</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
