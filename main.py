@@ -2,6 +2,7 @@
 # 📦 IMPORTS
 # ==============================
 import os
+import logging
 import uvicorn
 
 from math import ceil
@@ -14,6 +15,17 @@ from fastapi import FastAPI, Depends, HTTPException, Header, Query
 from app.database import SessionLocal, engine, Base
 from app.models import Track, Album, Artist
 from app.schemas import TrackSchema, AlbumSchema, ArtistSchema
+
+
+# ==============================
+# 🔹 LOGGING
+# ==============================
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger("soundly_api")
+
+uvicorn_logger = logging.getLogger("uvicorn")
+uvicorn_logger.handlers = logger.handlers
+uvicorn_logger.setLevel(logging.INFO)
 
 
 # ==============================
@@ -156,11 +168,7 @@ def list_artists(
     }
 
 
-@app.get(
-    "/albums/{album_id}", 
-    response_model=AlbumSchema, 
-    dependencies=[Depends(verify_api_key)]
-)
+@app.get("/albums/{album_id}", response_model=AlbumSchema, dependencies=[Depends(verify_api_key)])
 def get_album_by_id(album_id: str, db: Session = Depends(get_db)):
     album = db.query(Album).filter(Album.id == album_id).first()
     if not album:
@@ -168,20 +176,11 @@ def get_album_by_id(album_id: str, db: Session = Depends(get_db)):
     
     if album.release_date:
         album.release_date = album.release_date.isoformat()
-    
-    for track in album.tracks:
-        if track.album and track.album.release_date:
-            ...
-            # track.album.release_date = track.album.release_date.isoformat()
 
     return AlbumSchema.model_validate(album)
 
 
-@app.get(
-    "/tracks/{track_id}", 
-    response_model=TrackSchema, 
-    dependencies=[Depends(verify_api_key)]
-)
+@app.get("/tracks/{track_id}", response_model=TrackSchema, dependencies=[Depends(verify_api_key)])
 def get_track_by_id(track_id: str, db: Session = Depends(get_db)):
     track = db.query(Track).filter(Track.id == track_id).first()
     if not track:
@@ -192,10 +191,7 @@ def get_track_by_id(track_id: str, db: Session = Depends(get_db)):
     return TrackSchema.model_validate(track)
 
 
-@app.get(
-    "/albums/search", 
-    dependencies=[Depends(verify_api_key)]
-)
+@app.get("/search", dependencies=[Depends(verify_api_key)])
 def search_albums(
     title: Optional[str] = Query(None, description="Parte do nome do álbum"),
     artist: Optional[str] = Query(None, description="Parte do nome do artista"),
@@ -213,6 +209,10 @@ def search_albums(
 
     if not albums:
         raise HTTPException(status_code=404, detail="Nenhum álbum encontrado com esses filtros.")
+    
+    for album in albums:
+        if album.release_date:
+            album.release_date = album.release_date.isoformat()
 
     return [AlbumSchema.model_validate(a) for a in albums]
 
