@@ -124,15 +124,26 @@ def list_tracks(
 def list_albums(
     skip: int = Query(0, ge=0),
     limit: int = Query(10, gt=0),
+    title: Optional[str] = Query(None, description="Parte do nome do álbum"),
+    artist: Optional[str] = Query(None, description="Parte do nome do artista"),
     db: Session = Depends(get_db)
 ):
-    total = db.query(Album).count()
-    albums = db.query(Album).offset(skip).limit(limit).all()
+    
+    query = db.query(Album)
+
+    if title:
+        query = query.filter(Album.name.ilike(f"%{title}%"))
+
+    if artist:
+        query = query.join(Album.artists).filter(Artist.name.ilike(f"%{artist}%")).distinct()
+    
+    total = query.distinct().count()
+    albums = query.offset(skip).limit(limit).all()
     
     for album in albums:
         if album.release_date:
             album.release_date = album.release_date.isoformat()
-    
+
     return {
         "pagination": {
             "total_items": total,
@@ -189,32 +200,6 @@ def get_track_by_id(track_id: str, db: Session = Depends(get_db)):
     track.album.release_date = track.album.release_date.isoformat()
 
     return TrackSchema.model_validate(track)
-
-
-@app.get("/search", dependencies=[Depends(verify_api_key)])
-def search_albums(
-    title: Optional[str] = Query(None, description="Parte do nome do álbum"),
-    artist: Optional[str] = Query(None, description="Parte do nome do artista"),
-    db: Session = Depends(get_db)
-):
-    query = db.query(Album)
-
-    if title:
-        query = query.filter(Album.name.ilike(f"%{title}%"))
-
-    if artist:
-        query = query.join(Album.artists).filter(Artist.name.ilike(f"%{artist}%"))
-
-    albums = query.all()
-
-    if not albums:
-        raise HTTPException(status_code=404, detail="Nenhum álbum encontrado com esses filtros.")
-    
-    for album in albums:
-        if album.release_date:
-            album.release_date = album.release_date.isoformat()
-
-    return [AlbumSchema.model_validate(a) for a in albums]
 
 
 # ==============================
