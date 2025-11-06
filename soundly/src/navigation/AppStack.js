@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabNavigator from "./BottomTabNavigator";
-import DetalhesScreen from "../screens/DetalhesScreen";
+import DetalhesDoAlbumScreen from "../screens/DetalhesDoAlbumScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +14,7 @@ export default function AppStack() {
       />
       <Stack.Screen
         name="Detalhes"
-        component={DetalhesScreen}
+        component={DetalhesDoAlbumScreen}
         options={{ title: "Detalhes da Música" }}
       />
     </Stack.Navigator>

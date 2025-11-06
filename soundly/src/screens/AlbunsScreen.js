@@ -6,14 +6,14 @@ import { getData } from "../services/apiHelpers";
 import globals from "../styles/globals";
 
 export default function AlbunsScreen({ navigation }) {
-  const [albuns, setAlbuns] = useState([]);
+  const [albums, setAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [artist, setArtist] = useState("");
   const [page, setPage] = useState(1);
   const limit = 10; // quantidade por página
 
-  async function carregarAlbuns(params = {}) {
+  async function carregarAlbums(params = {}) {
     setLoading(true);
 
     try {
@@ -27,25 +27,36 @@ export default function AlbunsScreen({ navigation }) {
       const dados = await getData("/albums", query);
       console.log("📀 Álbuns carregados:", dados);
 
-      setAlbuns(dados.data || []);
+      setAlbums(dados.data || []);
     } catch (err) {
-      console.error("❌ Falha ao carregar álbuns:", err);
+      console.error("❌ Falha ao carregar álbums:", err);
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    carregarAlbuns();
-  }, []);
+    carregarAlbums();
+  }, [albums]);
 
   return (
     <View style={globals.container}>
       <Text style={globals.title}>Álbuns</Text>
-      <TouchableOpacity style={globals.button} onPress={() => navigation.navigate("Detalhes")}>
+      {loading ? (
+        <Text style={globals.text}>Carregando...</Text>
+      ) : (
+        albums.map((album) => (
+          <Text key={album.id} style={globals.text}>
+            {album.name}
+          </Text>
+        ))
+      )}
+      <TouchableOpacity
+        style={globals.button}
+        onPress={() => navigation.navigate("Detalhes")}
+      >
         <Text style={globals.buttonText}>Ver Detalhes</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
