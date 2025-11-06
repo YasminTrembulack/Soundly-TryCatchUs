@@ -9,6 +9,28 @@ class AlbumImageSchema(BaseModel):
     class Config:
         from_attributes = True
 
+class ArtistSchema(BaseModel):
+    id: str
+    name: str
+    href: Optional[str]
+    type: Optional[str]
+    uri: Optional[str]
+    external_url: Optional[str]
+
+    class Config:
+        from_attributes = True
+        
+class TrackInAlbumSchema(BaseModel):
+    id: str
+    name: str
+    duration_ms: Optional[int]
+    explicit: Optional[bool]
+    preview_url: Optional[str]
+    artists: List[ArtistSchema] = []
+
+    class Config:
+        from_attributes = True
+
 class AlbumSchema(BaseModel):
     id: str
     name: str
@@ -19,17 +41,7 @@ class AlbumSchema(BaseModel):
     uri: Optional[str]
     external_url: Optional[str]
     images: List[AlbumImageSchema] = []
-
-    class Config:
-        from_attributes = True
-
-class ArtistSchema(BaseModel):
-    id: str
-    name: str
-    href: Optional[str]
-    type: Optional[str]
-    uri: Optional[str]
-    external_url: Optional[str]
+    tracks: List[TrackInAlbumSchema] = []
 
     class Config:
         from_attributes = True

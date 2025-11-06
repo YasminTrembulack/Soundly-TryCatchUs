@@ -165,6 +165,15 @@ def get_album_by_id(album_id: str, db: Session = Depends(get_db)):
     album = db.query(Album).filter(Album.id == album_id).first()
     if not album:
         raise HTTPException(status_code=404, detail="Álbum não encontrado.")
+    
+    if album.release_date:
+        album.release_date = album.release_date.isoformat()
+    
+    for track in album.tracks:
+        if track.album and track.album.release_date:
+            ...
+            # track.album.release_date = track.album.release_date.isoformat()
+
     return AlbumSchema.model_validate(album)
 
 
@@ -177,6 +186,9 @@ def get_track_by_id(track_id: str, db: Session = Depends(get_db)):
     track = db.query(Track).filter(Track.id == track_id).first()
     if not track:
         raise HTTPException(status_code=404, detail="Música não encontrada.")
+    
+    track.album.release_date = track.album.release_date.isoformat()
+
     return TrackSchema.model_validate(track)
 
 
