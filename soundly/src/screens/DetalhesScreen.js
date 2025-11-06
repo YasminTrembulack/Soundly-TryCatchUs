@@ -1,17 +1,15 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import globals from "../styles/globals";
 
 export default function DetalhesScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Detalhes da Música</Text>
-      <Text>Artista: Exemplo</Text>
-      <Text>Álbum: Exemplo</Text>
-      <Button title="Voltar" onPress={() => navigation.goBack()} />
+    <View style={globals.container}>
+      <Text style={globals.title}>Detalhes da Música</Text>
+      <Text style={globals.text}>Artista: Exemplo</Text>
+      <Text style={globals.text}>Álbum: Exemplo</Text>
+      <TouchableOpacity style={globals.button} onPress={() => navigation.goBack()}>
+        <Text style={globals.buttonText}>Voltar</Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center", padding: 20 },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 10 },
-});

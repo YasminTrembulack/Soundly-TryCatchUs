@@ -1,6 +1,6 @@
 # 📱 Soundly
 
-ola!!!
+# [Database Dump](https://drive.google.com/file/d/1UiNxLYdEhpua8qL5Fc2QsQIFbAFEKTr2/view?usp=sharing)
 
 ## Especificação de Cada Projeto
 
@@ -10,7 +10,7 @@ Projeto mobile em **React-Native** em que cada equipe apresenta, em formato de s
 
 ## 🎵 App de Músicas e Álbuns
 
-**Tema:** Um aplicativo para explorar músicas e álbuns de artistas.
+**Tema:** Um aplicativo para explorar Álbuns de artistas.
 
 **API Sugerida:** [TheAudioDB API](https://www.theaudiodb.com/)
 

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { UserContext } from "../context/UserContext";
+import globals from "../styles/globals";
 
 export default function PerfilScreen({ navigation }) {
   const { user, logout } = useContext(UserContext);

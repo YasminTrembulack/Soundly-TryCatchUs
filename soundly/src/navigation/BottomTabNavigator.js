@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import MusicasEAlbunsScreen from "../screens/MusicasEAlbunsScreen";
+import AlbunsScreen from "../screens/AlbunsScreen";
 import PlaylistsScreen from "../screens/PlaylistsScreen";
 import PerfilScreen from "../screens/PerfilScreen";
 import { Ionicons } from "@expo/vector-icons";
@@ -14,7 +14,7 @@ export default function BottomTabNavigator() {
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === "Músicas e Álbuns") iconName = "musical-notes";
+          if (route.name === "Álbuns") iconName = "musical-notes";
           else if (route.name === "Playlists") iconName = "list";
           else if (route.name === "Perfil") iconName = "person";
 
@@ -24,7 +24,7 @@ export default function BottomTabNavigator() {
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen name="Músicas e Álbuns" component={MusicasEAlbunsScreen} />
+      <Tab.Screen name="Álbuns" component={AlbunsScreen} />
       <Tab.Screen name="Playlists" component={PlaylistsScreen} />
       <Tab.Screen name="Perfil" component={PerfilScreen} />
     </Tab.Navigator>
