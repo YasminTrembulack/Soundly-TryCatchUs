@@ -85,14 +85,62 @@ def index():
     return {
         "app_name": "Soundly API",
         "version": "1.0.0",
-        "description": "API para gerenciar artistas, álbuns e músicas tipo Spotify",
+        "description": "API REST para gerenciar artistas, álbuns e faixas musicais — semelhante a um catálogo de streaming (tipo Spotify).",
+        "message": "🎵 Bem-vindo à Soundly API!",
         "endpoints": {
-            "/tracks": "Listagem de músicas com paginação",
-            "/albums": "Listagem de álbuns com paginação e imagens",
-            "/artists": "Listagem de artistas com paginação"
-        },
-        "message": "Bem-vindo à Soundly API 🎵"
+            "/tracks": {
+                "method": "GET",
+                "description": "Listagem de músicas com paginação e informações do álbum/artista.",
+                "query_params": {
+                    "skip": "Número de itens a pular (padrão: 0).",
+                    "limit": "Número máximo de itens por página (padrão: 10)."
+                },
+                "auth": "Requer header Authorization com a API key.",
+                "example": "/tracks?skip=0&limit=10"
+            },
+            "/tracks/{track_id}": {
+                "method": "GET",
+                "description": "Retorna os detalhes de uma música específica pelo ID.",
+                "path_params": {
+                    "track_id": "ID único da música."
+                },
+                "auth": "Requer header Authorization com a API key.",
+                "example": "/tracks/123"
+            },
+            "/albums": {
+                "method": "GET",
+                "description": "Listagem de álbuns com paginação, imagens e filtros por título ou artista.",
+                "query_params": {
+                    "skip": "Número de itens a pular (padrão: 0).",
+                    "limit": "Número máximo de itens por página (padrão: 10).",
+                    "title": "Filtra álbuns contendo este trecho no nome (opcional).",
+                    "artist": "Filtra álbuns pelo nome do artista (opcional)."
+                },
+                "auth": "Requer header Authorization com a API key.",
+                "example": "/albums?title=rock&artist=queen"
+            },
+            "/albums/{album_id}": {
+                "method": "GET",
+                "description": "Busca um álbum específico pelo ID, incluindo faixas relacionadas.",
+                "path_params": {
+                    "album_id": "ID único do álbum."
+                },
+                "auth": "Requer header Authorization com a API key.",
+                "example": "/albums/42"
+            },
+            "/artists": {
+                "method": "GET",
+                "description": "Listagem de artistas com paginação.",
+                "query_params": {
+                    "skip": "Número de itens a pular (padrão: 0).",
+                    "limit": "Número máximo de itens por página (padrão: 10)."
+                },
+                "auth": "Requer header Authorization com a API key.",
+                "example": "/artists?skip=0&limit=5"
+            },
+        }
     }
+
 
 @app.get("/tracks", dependencies=[Depends(verify_api_key)])
 def list_tracks(
