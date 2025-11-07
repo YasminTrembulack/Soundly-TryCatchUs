@@ -35,7 +35,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.accent,
     textAlign: 'center',
-    marginBottom: 50,
+    marginBottom: 10, // Reduzi o marginBottom
+  },
+  subtitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 40,
+    color: colors.text,
   },
   label: {
     fontSize: 16,
@@ -117,6 +124,7 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SoundLY</Text>
+      <Text style={styles.subtitle}>LOGIN</Text> {/* ADICIONADO */}
       
       <Text style={styles.label}>Username:</Text>
       <TextInput
