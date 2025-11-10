@@ -1,3 +1,4 @@
+// src/context/UserContext.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState, useEffect } from "react";
 
@@ -39,10 +40,15 @@ export function UserProvider({ children }) {
     return newUser;
   }
 
-  // Login (busca usuário pelo username e senha)
+  // Login (busca usuário pelo username e senha) - CORRIGIDA
   async function login(username, password) {
     const users = await readUsers();
     const foundUser = users.find((u) => u.username === username && u.password === password);
+    
+    if (!foundUser) {
+      throw new Error("Usuário ou senha incorretos!");
+    }
+    
     setUser(foundUser);
     return foundUser;
   }

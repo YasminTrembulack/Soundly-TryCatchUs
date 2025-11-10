@@ -1,167 +1,168 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+// src/screens/PlaylistsScreen.js
+import React from 'react';
+import { 
+  View, 
+  Text, 
+  ScrollView, 
+  TouchableOpacity, 
+  StyleSheet 
+} from 'react-native';
+
+const colors = {
+  primary: '#7B2CBF',
+  secondary: '#5A189A',
+  dark: '#240046',
+  light: '#C77DFF',
+  accent: '#E0AAFF',
+  background: '#070110',
+  text: '#FFFFFF',
+  cardBackground: '#100039'
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: colors.background,
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  title: {
+    fontFamily: "Caveat_400Regular",
+    fontSize: 48,
+    fontWeight: "bold",
+    color: colors.accent,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  screenTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: colors.text,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  playlistCard: {
+    backgroundColor: colors.cardBackground,
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: colors.primary,
+  },
+  playlistTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.accent,
+    marginBottom: 5,
+  },
+  playlistInfo: {
+    fontSize: 14,
+    color: colors.light,
+  },
+  bottomNav: {
+    flexDirection: 'row',
+    backgroundColor: colors.cardBackground,
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderTopColor: colors.primary,
+  },
+  navItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  navIcon: {
+    fontSize: 20,
+    color: colors.light,
+    marginBottom: 5,
+  },
+  navLabel: {
+    fontSize: 12,
+    color: colors.light,
+  },
+  activeNav: {
+    color: colors.accent,
+  }
+});
+
+// Dados mock de playlists
+const mockPlaylists = [
+  {
+    id: 1,
+    title: "Minhas Favoritas",
+    songs: 15,
+    duration: "45 min"
+  },
+  {
+    id: 2,
+    title: "Rock Clássico",
+    songs: 20,
+    duration: "1h 30min"
+  },
+  {
+    id: 3,
+    title: "Para Estudar",
+    songs: 10,
+    duration: "35 min"
+  },
+  {
+    id: 4,
+    title: "Workout Mix",
+    songs: 25,
+    duration: "1h 45min"
+  }
+];
 
 export default function PlaylistsScreen({ navigation }) {
-  // 📝 DADOS FICTÍCIOS - Playlists do usuário
-  const playlists = [
-    { id: 1, nome: "Minhas Favoritas", musicas: 24, emoji: "❤️" },
-    { id: 2, nome: "Rock Clássico", musicas: 18, emoji: "🎸" },
-    { id: 3, nome: "Para Estudar", musicas: 32, emoji: "📚" },
-    { id: 4, nome: "Party Hits", musicas: 15, emoji: "🎉" },
-    { id: 5, nome: "Chill Out", musicas: 22, emoji: "🌙" },
-    { id: 6, nome: "Workout", musicas: 28, emoji: "💪" },
-  ];
-
   return (
     <View style={styles.container}>
-      {/* CABEÇALHO */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>📋 Minhas Playlists</Text>
-        <TouchableOpacity style={styles.addButton}>
-          <Text style={styles.addIcon}>➕</Text>
-        </TouchableOpacity>
+        <Text style={styles.title}>SoundLY</Text>
+        <Text style={styles.screenTitle}>Playlists</Text>
       </View>
 
-      {/* CONTEÚDO PRINCIPAL */}
-      <ScrollView style={styles.content}>
-        
-        {/* BOTÃO CRIAR NOVA PLAYLIST */}
-        <TouchableOpacity style={styles.createPlaylistCard} activeOpacity={0.7}>
-          <Text style={styles.createIcon}>🎵</Text>
-          <Text style={styles.createText}>Criar Nova Playlist</Text>
-        </TouchableOpacity>
-
-        {/* LISTA DE PLAYLISTS */}
-        <Text style={styles.sectionTitle}>Suas Playlists</Text>
-        
-        {playlists.map(playlist => (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {mockPlaylists.map((playlist) => (
           <TouchableOpacity 
-            key={playlist.id} 
+            key={playlist.id}
             style={styles.playlistCard}
-            activeOpacity={0.8}
+            onPress={() => navigation.navigate("Detalhes", { playlistId: playlist.id })}
           >
-            <View style={styles.playlistHeader}>
-              <Text style={styles.playlistEmoji}>{playlist.emoji}</Text>
-              <View style={styles.playlistInfo}>
-                <Text style={styles.playlistName}>{playlist.nome}</Text>
-                <Text style={styles.playlistCount}>{playlist.musicas} músicas</Text>
-              </View>
-            </View>
-            <Text style={styles.moreIcon}>⋯</Text>
+            <Text style={styles.playlistTitle}>{playlist.title}</Text>
+            <Text style={styles.playlistInfo}>{playlist.songs} músicas • {playlist.duration}</Text>
           </TouchableOpacity>
         ))}
-
       </ScrollView>
+
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => navigation.navigate('Albuns')}
+        >
+          <Text style={styles.navIcon}>🎵</Text>
+          <Text style={styles.navLabel}>Álbuns</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => {}}
+        >
+          <Text style={[styles.navIcon, styles.activeNav]}>📋</Text>
+          <Text style={[styles.navLabel, styles.activeNav]}>Playlists</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => navigation.navigate('Perfil')}
+        >
+          <Text style={styles.navIcon}>👤</Text>
+          <Text style={styles.navLabel}>Perfil</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
-
-// 🎨 ESTILOS - Mesmo tema da Home
-const styles = StyleSheet.create({
-  // FUNDO PRINCIPAL
-  container: {
-    flex: 1,
-    backgroundColor: '#0C0C0C', // Preto puro
-  },
-  
-  // CABEÇALHO
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-    paddingTop: 60,
-    backgroundColor: '#1A1A1A', // Cinza escuro
-    borderBottomWidth: 1,
-    borderBottomColor: '#3B82F6', // Azul principal
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#8FD9FF', // Azul claro
-  },
-  addButton: {
-    padding: 10,
-    backgroundColor: '#3B82F6', // Azul principal
-    borderRadius: 20,
-  },
-  addIcon: {
-    fontSize: 18,
-    color: '#FFFFFF',
-  },
-
-  // CONTEÚDO
-  content: {
-    flex: 1,
-    padding: 16,
-  },
-
-  // CARD CRIAR NOVA PLAYLIST
-  createPlaylistCard: {
-    backgroundColor: '#1A1A1A',
-    padding: 20,
-    borderRadius: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-    borderWidth: 2,
-    borderColor: '#BB86FC', // Roxo
-    borderStyle: 'dashed',
-  },
-  createIcon: {
-    fontSize: 24,
-    marginRight: 12,
-  },
-  createText: {
-    color: '#BB86FC', // Roxo
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-
-  // SEÇÃO
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#BB86FC', // Roxo
-    marginBottom: 15,
-  },
-
-  // CARD DE PLAYLIST
-  playlistCard: {
-    backgroundColor: '#1A1A1A',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: 1,
-    borderColor: '#3B82F6', // Azul
-  },
-  playlistHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  playlistEmoji: {
-    fontSize: 32,
-    marginRight: 12,
-  },
-  playlistInfo: {
-    flex: 1,
-  },
-  playlistName: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  playlistCount: {
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: 14,
-  },
-  moreIcon: {
-    fontSize: 20,
-    color: '#8FD9FF', // Azul claro
-    fontWeight: 'bold',
-  },
-});

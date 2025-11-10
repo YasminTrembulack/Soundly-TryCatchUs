@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { 
   View, 
   Text, 
+  TextInput,
   ScrollView, 
   TouchableOpacity, 
   ActivityIndicator,
@@ -11,16 +12,16 @@ import {
 
 import { getData } from "../services/apiHelpers";
 
-// PALETA DE CORES 
+// PALETA DE CORES
 const colors = {
-  primary: '#7B2CBF',     // Roxo principal (French violet)
-  secondary: '#5A189A',   // Roxo escuro (Russian violet)
-  dark: '#240046',        // Roxo muito escuro
-  light: '#C77DFF',       // Roxo claro
-  accent: '#E0AAFF',      // Roxo muito claro
-  background: '#070110',  // Fundo preto azulado
-  text: '#FFFFFF',        // Texto branco
-  cardBackground: '#100039' // Fundo dos cards
+  primary: '#7B2CBF',
+  secondary: '#5A189A',
+  dark: '#240046',
+  light: '#C77DFF',
+  accent: '#E0AAFF',
+  background: '#070110',
+  text: '#FFFFFF',
+  cardBackground: '#100039'
 };
 
 const styles = StyleSheet.create({
@@ -46,7 +47,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.text,
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.cardBackground,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    height: 50,
+  },
+  searchIcon: {
+    fontSize: 20,
+    color: colors.light,
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    color: colors.text,
+    fontSize: 16,
   },
   filtersContainer: {
     marginBottom: 20,
@@ -89,10 +111,35 @@ const styles = StyleSheet.create({
   loadingText: {
     color: colors.light,
     marginTop: 10,
+  },
+  // Bottom Navigation Styles
+  bottomNav: {
+    flexDirection: 'row',
+    backgroundColor: colors.cardBackground,
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderTopColor: colors.primary,
+  },
+  navItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  navIcon: {
+    fontSize: 20,
+    color: colors.light,
+    marginBottom: 5,
+  },
+  navLabel: {
+    fontSize: 12,
+    color: colors.light,
+  },
+  activeNav: {
+    color: colors.accent,
   }
 });
 
-// Dados mock baseados na imagem (enquanto a API não carrega)
+// Dados mock
 const mockAlbuns = [
   {
     id: 1,
@@ -135,16 +182,14 @@ const mockAlbuns = [
 export default function AlbunsScreen({ navigation }) {
   const [albuns, setAlbuns] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState('');
 
   async function carregarAlbuns() {
     try {
       const dados = await getData("/albums");
-      console.log("Álbuns:", dados);
-      // Se a API retornar dados, usa eles, senão usa os mocks
       setAlbuns(dados.length > 0 ? dados : mockAlbuns);
     } catch (err) {
       console.error("Falha ao carregar álbuns:", err);
-      // Em caso de erro, usa os dados mock
       setAlbuns(mockAlbuns);
     } finally {
       setLoading(false);
@@ -154,6 +199,12 @@ export default function AlbunsScreen({ navigation }) {
   useEffect(() => {
     carregarAlbuns();
   }, []);
+
+  // Filtrar álbuns baseado na pesquisa
+  const filteredAlbuns = albuns.filter(album =>
+    album.title.toLowerCase().includes(searchText.toLowerCase()) ||
+    album.artist.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -166,21 +217,35 @@ export default function AlbunsScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Header com SoundLY */}
+      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>SoundLY</Text>
         <Text style={styles.screenTitle}>Álbuns</Text>
       </View>
 
+      {/* Barra de Pesquisa */}
+      <View style={styles.searchContainer}>
+        <Text style={styles.searchIcon}>🔍</Text>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Pesquisar álbuns..."
+          placeholderTextColor={colors.light}
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+      </View>
+
       {/* Filtros */}
       <View style={styles.filtersContainer}>
         <Text style={styles.filtersTitle}>FILTROS</Text>
-        {/* Aqui podem ser adicionados botões de filtro depois */}
       </View>
 
       {/* Lista de Álbuns */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {albuns.map((album) => (
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        style={{ flex: 1, marginBottom: 10 }}
+      >
+        {filteredAlbuns.map((album) => (
           <TouchableOpacity 
             key={album.id}
             style={styles.albumCard}
@@ -192,6 +257,33 @@ export default function AlbunsScreen({ navigation }) {
           </TouchableOpacity>
         ))}
       </ScrollView>
+
+      {/* Bottom Navigation - ÚNICA NAVEGAÇÃO VISÍVEL */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => {}} // Já está na tela de Álbuns
+        >
+          <Text style={[styles.navIcon, styles.activeNav]}>🎵</Text>
+          <Text style={[styles.navLabel, styles.activeNav]}>Álbuns</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => navigation.navigate('Playlists')}
+        >
+          <Text style={styles.navIcon}>📋</Text>
+          <Text style={styles.navLabel}>Playlists</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => navigation.navigate('Perfil')}
+        >
+          <Text style={styles.navIcon}>👤</Text>
+          <Text style={styles.navLabel}>Perfil</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
