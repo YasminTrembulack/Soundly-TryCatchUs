@@ -1,0 +1,790 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Soundly - Mobile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --preto: #0C0C0C;
+      --cinza-escuro: #1A1A1A;
+      --azul-claro: #8FD9FF;
+      --azul-medio: #3B82F6;
+      --azul-escuro: #0B3B85;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: var(--preto);
+      color: #ffffff;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* MOBILE HEADER */
+    .mobile-header {
+      background-color: var(--cinza-escuro);
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--azul-escuro);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5em;
+      font-weight: 600;
+      color: var(--azul-claro);
+    }
+
+    .menu-icon {
+      font-size: 1.2em;
+      color: var(--azul-claro);
+    }
+
+    /* MOBILE NAVIGATION */
+    .mobile-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--cinza-escuro);
+      border-top: 1px solid var(--azul-escuro);
+      padding: 10px 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 15px;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 0.8em;
+      transition: all 0.3s ease;
+      border-radius: 15px;
+    }
+
+    .nav-item.active {
+      color: var(--azul-claro);
+      background-color: rgba(143, 217, 255, 0.1);
+    }
+
+    .nav-icon {
+      font-size: 1.3em;
+      margin-bottom: 4px;
+    }
+
+    /* MOBILE CONTAINER */
+    .mobile-container {
+      padding: 20px;
+      padding-bottom: 80px; /* Espaço para a navegação inferior */
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* TELAS MOBILE */
+    .tela-mobile {
+      display: none;
+      animation: slideUp 0.4s ease;
+    }
+
+    .tela-mobile.active {
+      display: block;
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* TELA LOGIN MOBILE */
+    .login-mobile {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .login-title {
+      font-size: 2em;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--azul-claro), var(--azul-medio));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .login-subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 30px;
+    }
+
+    .login-form-mobile {
+      background-color: var(--cinza-escuro);
+      padding: 25px;
+      border-radius: 20px;
+      margin: 0 auto;
+      max-width: 400px;
+      border: 1px solid rgba(11, 59, 133, 0.3);
+    }
+
+    .form-group-mobile {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--azul-claro);
+      font-weight: 600;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: var(--preto);
+      color: white;
+      font-size: 1em;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--azul-claro);
+    }
+
+    .btn-mobile-primary {
+      background: linear-gradient(135deg, var(--azul-medio), var(--azul-escuro));
+      color: white;
+      border: none;
+      padding: 18px;
+      border-radius: 15px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1em;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn-mobile-primary:active {
+      transform: scale(0.98);
+    }
+
+    .login-footer {
+      margin-top: 25px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9em;
+    }
+
+    .login-link {
+      color: var(--azul-claro);
+      text-decoration: none;
+    }
+
+    /* TELA EXPLORAR MOBILE */
+    .explorar-mobile {
+      padding: 10px 0;
+    }
+
+    .search-mobile {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .search-input-mobile {
+      width: 100%;
+      padding: 18px 50px 18px 20px;
+      border-radius: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: var(--cinza-escuro);
+      color: white;
+      font-size: 1em;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .search-icon-mobile {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--azul-claro);
+    }
+
+    .categories-scroll {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 25px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .category-chip {
+      padding: 12px 20px;
+      background-color: rgba(12, 12, 12, 0.6);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.8);
+      white-space: nowrap;
+      font-size: 0.9em;
+      transition: all 0.3s ease;
+    }
+
+    .category-chip.active {
+      background-color: rgba(143, 217, 255, 0.1);
+      border-color: var(--azul-claro);
+      color: var(--azul-claro);
+    }
+
+    .section-title {
+      font-size: 1.4em;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .cards-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .card-mobile {
+      background-color: var(--cinza-escuro);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(11, 59, 133, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .card-mobile:active {
+      transform: scale(0.98);
+    }
+
+    .card-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--azul-escuro), var(--azul-medio));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.9em;
+      flex-shrink: 0;
+    }
+
+    .card-content {
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 1.1em;
+      margin-bottom: 5px;
+      color: white;
+    }
+
+    .card-artist {
+      color: var(--azul-claro);
+      font-size: 0.9em;
+      margin-bottom: 8px;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag-mobile {
+      background-color: rgba(143, 217, 255, 0.1);
+      color: var(--azul-claro);
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      border: 1px solid rgba(143, 217, 255, 0.3);
+    }
+
+    /* TELA DETALHES MOBILE */
+    .detalhes-mobile {
+      padding: 10px 0;
+    }
+
+    .detail-header-mobile {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .detail-image-mobile {
+      width: 200px;
+      height: 200px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--azul-escuro), var(--azul-medio));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2em;
+      margin: 0 auto 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .detail-title-mobile {
+      font-size: 1.8em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--azul-claro), var(--azul-medio));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .detail-artist-mobile {
+      font-size: 1.2em;
+      color: var(--azul-claro);
+      margin-bottom: 20px;
+    }
+
+    .detail-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 25px;
+      background-color: var(--cinza-escuro);
+      padding: 15px;
+      border-radius: 15px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.3em;
+      font-weight: 600;
+      color: white;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.8em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .action-buttons-mobile {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .btn-mobile-secondary {
+      background-color: transparent;
+      color: var(--azul-claro);
+      border: 2px solid var(--azul-medio);
+      padding: 15px;
+      border-radius: 15px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-mobile-secondary:active {
+      background-color: rgba(59, 130, 246, 0.1);
+      transform: scale(0.95);
+    }
+
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+      justify-content: center;
+    }
+
+    .track-list-mobile {
+      background-color: var(--cinza-escuro);
+      border-radius: 20px;
+      padding: 0;
+      border: 1px solid rgba(11, 59, 133, 0.3);
+    }
+
+    .track-item {
+      display: flex;
+      align-items: center;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    .track-item:active {
+      background-color: rgba(12, 12, 12, 0.6);
+    }
+
+    .track-item:last-child {
+      border-bottom: none;
+    }
+
+    .track-number {
+      width: 30px;
+      color: var(--azul-claro);
+      font-weight: 600;
+    }
+
+    .track-info-mobile {
+      flex: 1;
+    }
+
+    .track-title-mobile {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .track-artist-mobile {
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .track-duration-mobile {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9em;
+    }
+
+    /* SCROLLBAR PERSONALIZADA */
+    .categories-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .categories-scroll::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+    }
+
+    .categories-scroll::-webkit-scrollbar-thumb {
+      background: var(--azul-claro);
+      border-radius: 2px;
+    }
+
+    /* ANIMAÇÕES MOBILE */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* TOUCH OPTIMIZATIONS */
+    @media (max-width: 480px) {
+      .mobile-container {
+        padding: 15px;
+        padding-bottom: 70px;
+      }
+      
+      .login-form-mobile {
+        padding: 20px;
+      }
+      
+      .detail-image-mobile {
+        width: 180px;
+        height: 180px;
+      }
+      
+      .action-buttons-mobile {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* DARK MODE SUPPORT */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: var(--preto);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER MOBILE -->
+  <header class="mobile-header">
+    <div class="header-content">
+      <div class="logo">Soundly 🎵</div>
+      <div class="menu-icon">☰</div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="mobile-container">
+    <!-- TELA LOGIN -->
+    <div id="tela-login" class="tela-mobile active">
+      <div class="login-mobile">
+        <h1 class="login-title">Bem-vindo</h1>
+        <p class="login-subtitle">Entre na sua conta Soundly</p>
+        
+        <div class="login-form-mobile">
+          <div class="form-group-mobile">
+            <label class="form-label">E-mail</label>
+            <input type="email" class="form-input" placeholder="seu@email.com">
+          </div>
+          
+          <div class="form-group-mobile">
+            <label class="form-label">Senha</label>
+            <input type="password" class="form-input" placeholder="Sua senha">
+          </div>
+          
+          <button class="btn-mobile-primary pulse">Entrar</button>
+          
+          <p class="login-footer">
+            Não tem conta? <a href="#" class="login-link">Cadastre-se</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TELA EXPLORAR -->
+    <div id="tela-explorar" class="tela-mobile">
+      <div class="explorar-mobile">
+        <div class="search-mobile">
+          <input type="text" class="search-input-mobile" placeholder="Buscar músicas...">
+          <div class="search-icon-mobile">🔍</div>
+        </div>
+        
+        <div class="categories-scroll">
+          <div class="category-chip active">Todos</div>
+          <div class="category-chip">Pop</div>
+          <div class="category-chip">Rock</div>
+          <div class="category-chip">Hip Hop</div>
+          <div class="category-chip">Eletrônica</div>
+          <div class="category-chip">Jazz</div>
+        </div>
+        
+        <h2 class="section-title">Recomendados</h2>
+        
+        <div class="cards-vertical">
+          <div class="card-mobile">
+            <div class="card-image">🎵</div>
+            <div class="card-content">
+              <h3 class="card-title">Midnight Dreams</h3>
+              <p class="card-artist">Luna Shadows</p>
+              <div class="card-tags">
+                <span class="tag-mobile">Pop</span>
+                <span class="tag-mobile">Eletrônica</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-mobile">
+            <div class="card-image">🎵</div>
+            <div class="card-content">
+              <h3 class="card-title">Urban Echoes</h3>
+              <p class="card-artist">The Midnight Club</p>
+              <div class="card-tags">
+                <span class="tag-mobile">Indie</span>
+                <span class="tag-mobile">Alternativo</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-mobile">
+            <div class="card-image">🎵</div>
+            <div class="card-content">
+              <h3 class="card-title">Electric Soul</h3>
+              <p class="card-artist">Neon Waves</p>
+              <div class="card-tags">
+                <span class="tag-mobile">Synthwave</span>
+                <span class="tag-mobile">Retro</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-mobile">
+            <div class="card-image">🎵</div>
+            <div class="card-content">
+              <h3 class="card-title">Acoustic Sessions</h3>
+              <p class="card-artist">River Bennett</p>
+              <div class="card-tags">
+                <span class="tag-mobile">Folk</span>
+                <span class="tag-mobile">Acústico</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TELA DETALHES -->
+    <div id="tela-detalhes" class="tela-mobile">
+      <div class="detalhes-mobile">
+        <div class="detail-header-mobile">
+          <div class="detail-image-mobile pulse">Capa</div>
+          <h1 class="detail-title-mobile">Midnight Dreams</h1>
+          <p class="detail-artist-mobile">Luna Shadows</p>
+        </div>
+        
+        <div class="detail-stats">
+          <div class="stat-item">
+            <span class="stat-value">12</span>
+            <span class="stat-label">Músicas</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">45:18</span>
+            <span class="stat-label">Duração</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">2.4M</span>
+            <span class="stat-label">Ouvintes</span>
+          </div>
+        </div>
+        
+        <div class="action-buttons-mobile">
+          <button class="btn-mobile-primary">▶️ Reproduzir</button>
+          <button class="btn-mobile-secondary">❤️ Favoritar</button>
+          <button class="btn-mobile-secondary">📥 Baixar</button>
+          <button class="btn-mobile-secondary">➕ Playlist</button>
+        </div>
+        
+        <div class="tags-container">
+          <span class="tag-mobile">Pop</span>
+          <span class="tag-mobile">Eletrônica</span>
+          <span class="tag-mobile">Dream Pop</span>
+          <span class="tag-mobile">2023</span>
+        </div>
+        
+        <h2 class="section-title">Faixas</h2>
+        <div class="track-list-mobile">
+          <div class="track-item">
+            <div class="track-number">1</div>
+            <div class="track-info-mobile">
+              <div class="track-title-mobile">Starlight</div>
+              <div class="track-artist-mobile">Luna Shadows</div>
+            </div>
+            <div class="track-duration-mobile">3:45</div>
+          </div>
+          
+          <div class="track-item">
+            <div class="track-number">2</div>
+            <div class="track-info-mobile">
+              <div class="track-title-mobile">Midnight Drive</div>
+              <div class="track-artist-mobile">Luna Shadows</div>
+            </div>
+            <div class="track-duration-mobile">4:12</div>
+          </div>
+          
+          <div class="track-item">
+            <div class="track-number">3</div>
+            <div class="track-info-mobile">
+              <div class="track-title-mobile">Echoes in the Dark</div>
+              <div class="track-artist-mobile">Luna Shadows ft. Neon Waves</div>
+            </div>
+            <div class="track-duration-mobile">3:58</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVEGAÇÃO INFERIOR MOBILE -->
+  <nav class="mobile-nav">
+    <a href="#" class="nav-item active" onclick="mostrarTelaMobile('login')">
+      <div class="nav-icon">👤</div>
+      <span>Conta</span>
+    </a>
+    <a href="#" class="nav-item" onclick="mostrarTelaMobile('explorar')">
+      <div class="nav-icon">🔍</div>
+      <span>Explorar</span>
+    </a>
+    <a href="#" class="nav-item" onclick="mostrarTelaMobile('detalhes')">
+      <div class="nav-icon">🎵</div>
+      <span>Música</span>
+    </a>
+  </nav>
+
+  <script>
+    function mostrarTelaMobile(telaId) {
+      // Esconder todas as telas
+      document.querySelectorAll('.tela-mobile').forEach(tela => {
+        tela.classList.remove('active');
+      });
+      
+      // Remover classe active de todos os itens de navegação
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      
+      // Mostrar tela selecionada
+      document.getElementById('tela-' + telaId).classList.add('active');
+      
+      // Ativar item de navegação correspondente
+      event.currentTarget.classList.add('active');
+    }
+
+    // Efeitos de toque para cards
+    document.querySelectorAll('.card-mobile, .track-item').forEach(element => {
+      element.addEventListener('touchstart', function() {
+        this.style.transform = 'scale(0.98)';
+      });
+      
+      element.addEventListener('touchend', function() {
+        this.style.transform = 'scale(1)';
+      });
+    });
+
+    // Prevenir zoom duplo-toque
+    document.addEventListener('touchstart', function(event) {
+      if (event.touches.length > 1) {
+        event.preventDefault();
+      }
+    }, { passive: false });
+
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+  </script>
+</body>
+</html>
+        

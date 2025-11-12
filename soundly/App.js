@@ -1,3 +1,4 @@
+// App.js - Mantendo sua estrutura atual
 import { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { UserProvider } from "./src/context/UserContext";

@@ -10,3 +10,16 @@ export default {
     accent: "#E0AAFF",
     white: "#FFFFFF",
 };
+
+/*
+primary: '#7B2CBF',        // Roxo principal (French violet)
+secondary: '#5A189A',      // Roxo escuro (Russian violet)
+dark: '#240046',           // Roxo muito escuro
+light: '#C77DFF',          // Roxo claro
+accent: '#E0AAFF',         // Roxo muito claro
+background: '#070110',     // Fundo preto azulado
+text: '#FFFFFF',           // Texto branco
+text edit: '#00ffff'       // Texto agua
+inputBackground: '#100039' // Fundo dos inputs
+
+*/
