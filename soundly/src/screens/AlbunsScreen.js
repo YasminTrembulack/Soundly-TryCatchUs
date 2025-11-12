@@ -37,7 +37,7 @@ export default function AlbunsScreen({ navigation }) {
 
   useEffect(() => {
     carregarAlbums();
-  }, [albums]);
+  }, []);
 
   return (
     <View style={globals.container}>

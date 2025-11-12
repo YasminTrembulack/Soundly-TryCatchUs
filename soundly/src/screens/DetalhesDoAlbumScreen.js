@@ -29,8 +29,8 @@ export default function DetalhesDoAlbumScreen({ route, navigation }) {
 
   return (
     <View style={globals.container}>
-      <Text style={globals.title}>Detalhes da Música</Text>
-      {loading ? (
+      <Text style={globals.title}>Detalhes do Album</Text>
+      {loading && album == null? (
         <Text style={globals.text}>Carregando...</Text>
       ) : (
         <Text style={globals.text}>Álbum: {album.name}</Text>
