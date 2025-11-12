@@ -1,21 +1,29 @@
-import { useContext } from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AuthStack from "./AuthStack";
-import AppStack from "./AppStack";
-import { UserContext } from "../context/UserContext";
+// src/navigation/RootStackNavigator.js
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import AlbunsScreen from '../screens/AlbunsScreen';
+import PlaylistsScreen from '../screens/PlaylistsScreen';
+import PerfilScreen from '../screens/PerfilScreen';
+import DetalhesScreen from '../screens/DetalhesScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function RootStackNavigator() {
-  const { user } = useContext(UserContext);
-
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {user ? (
-        <Stack.Screen name="AppStack" component={AppStack} />
-      ) : (
-        <Stack.Screen name="AuthStack" component={AuthStack} />
-      )}
+    <Stack.Navigator 
+      initialRouteName="Login"
+      screenOptions={{ 
+        headerShown: false,
+        contentStyle: { backgroundColor: '#070110' } // Fundo escuro padrão
+      }}
+    >
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="Albuns" component={AlbunsScreen} />
+      <Stack.Screen name="Playlists" component={PlaylistsScreen} />
+      <Stack.Screen name="Perfil" component={PerfilScreen} />
+      <Stack.Screen name="Detalhes" component={DetalhesScreen} />
     </Stack.Navigator>
   );
 }
