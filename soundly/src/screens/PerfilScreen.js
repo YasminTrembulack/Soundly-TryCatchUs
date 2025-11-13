@@ -1,5 +1,6 @@
 // src/screens/PerfilScreen.js
 import React, { useContext } from 'react';
+import globals from "../styles/globals";
 import { 
   View, 
   Text, 
