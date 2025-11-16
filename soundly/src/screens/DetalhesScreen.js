@@ -1,12 +1,14 @@
 /**
  * /src/screens/DetalhesScreen.js
  * Tela de detalhes do álbum - Com ícone flutuante discreto ↶
+ * ATUALIZADO: Imagens reais dos álbuns
  */
 
 import React, { useState } from 'react';
 import { 
   View, 
   Text, 
+  Image,
   ScrollView, 
   TouchableOpacity, 
   StyleSheet 
@@ -59,31 +61,41 @@ const styles = StyleSheet.create({
   },
   
   // Informações do Álbum
-  albumInfo: {
+  albumHeader: {
+    flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 30,
   },
+  coverImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 12,
+    marginRight: 20,
+  },
+  albumInfo: {
+    flex: 1,
+  },
   albumTitle: {
     fontFamily: "RobotoCondensed_700Bold",
-    fontSize: 28,
+    fontSize: 24,
     color: colors.mauve,
     marginBottom: 8,
   },
   artist: {
     fontFamily: "AnonymousPro_400Regular",
-    fontSize: 20,
+    fontSize: 18,
     color: colors.hellotrope,
     marginBottom: 6,
   },
   releaseDate: {
     fontFamily: "AnonymousPro_400Regular",
-    fontSize: 16,
+    fontSize: 14,
     color: colors.hellotrope,
     marginBottom: 4,
   },
   duration: {
     fontFamily: "RobotoCondensed_700Bold",
-    fontSize: 18,
+    fontSize: 16,
     color: colors.tekhelet,
   },
   
@@ -152,18 +164,56 @@ const styles = StyleSheet.create({
 export default function DetalhesScreen({ route, navigation }) {
   const [activeTab, setActiveTab] = useState('Misicas');
   
+  // Dados do álbum ATUALIZADOS com imagem real
   const albumData = {
     title: "From Zero",
     artist: "Linkin Park",
     releaseDate: "04/10/2014",
     duration: "3:21",
+    coverImage: "https://cdn.prod.website-files.com/66e1e7e2979a571dc056efb6/6736deee0198fd0b2342c6a5_from-zero-lancamento.webp",
     tracks: [
-      { id: 1, title: "Stanboy", duration: "3:45", year: "The world 2018" },
-      { id: 2, title: "Clocks", duration: "4:20", year: "30.09.1997-2002" },
-      { id: 3, title: "Espresso", duration: "3:15", year: "Start to Complete - 2004" },
-      { id: 4, title: "Soft Universe", duration: "3:30", year: "AUGUST 2018" },
-      { id: 5, title: "BIRDS OF A FEATHER", duration: "3:55", year: "BILLIE ELLEN 2009" },
-      { id: 6, title: "Baby", duration: "3:10", year: "JACKET RIGHT 2018" }
+      { 
+        id: 1, 
+        title: "Stanboy", 
+        duration: "3:45", 
+        year: "The world 2018",
+        image: "https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452"
+      },
+      { 
+        id: 2, 
+        title: "Clocks", 
+        duration: "4:20", 
+        year: "30.09.1997-2002",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1Vhmy2Q_Z3bSn7ySSelVFdAxn0bnjt4Ot0Q&s"
+      },
+      { 
+        id: 3, 
+        title: "Espresso", 
+        duration: "3:15", 
+        year: "Start to Complete - 2004",
+        image: "https://i1.sndcdn.com/artworks-JmEzUTtysnlJQLLz-xYCFCA-t1080x1080.jpg"
+      },
+      { 
+        id: 4, 
+        title: "Soft Universe", 
+        duration: "3:30", 
+        year: "AUGUST 2018",
+        image: "https://tiermaker.com/images/chart/chart/aurora---all-songs-1332115/zz1639013812soft-universe-minpng.png"
+      },
+      { 
+        id: 5, 
+        title: "BIRDS OF A FEATHER", 
+        duration: "3:55", 
+        year: "BILLIE ELLEN 2009",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5d2kuOjLrl2aNJJdoQ5PO6UGTpAQ6ZCl2uTpNGIf1LN5vzCXEOU3254viRhAM6v8EtM8&usqp=CAU"
+      },
+      { 
+        id: 6, 
+        title: "Baby", 
+        duration: "3:10", 
+        year: "JACKET RIGHT 2018",
+        image: "https://upload.wikimedia.org/wikipedia/pt/thumb/a/ad/Baby_Single.jpg/250px-Baby_Single.jpg"
+      }
     ]
   };
 
@@ -196,7 +246,11 @@ export default function DetalhesScreen({ route, navigation }) {
               <TouchableOpacity 
                 key={track.id} 
                 style={styles.trackItem}
-                onPress={() => console.log(`Tocando: ${track.title}`)}
+                onPress={() => {
+                  console.log(`Tocando: ${track.title}`);
+                  // Aqui você pode navegar para DetalhesMusicaScreen depois
+                  // navigation.navigate('DetalhesMusica', { trackId: track.id });
+                }}
               >
                 <View style={styles.trackInfo}>
                   <Text style={styles.trackTitle}>{track.title}</Text>
@@ -228,11 +282,18 @@ export default function DetalhesScreen({ route, navigation }) {
 
       {/* Conteúdo Principal */}
       <View style={styles.content}>
-        <View style={styles.albumInfo}>
-          <Text style={styles.albumTitle}>{albumData.title}</Text>
-          <Text style={styles.artist}>{albumData.artist}</Text>
-          <Text style={styles.releaseDate}>{albumData.releaseDate}</Text>
-          <Text style={styles.duration}>{albumData.duration}</Text>
+        {/* Cabeçalho do Álbum com Imagem */}
+        <View style={styles.albumHeader}>
+          <Image 
+            source={{ uri: albumData.coverImage }} 
+            style={styles.coverImage}
+          />
+          <View style={styles.albumInfo}>
+            <Text style={styles.albumTitle}>{albumData.title}</Text>
+            <Text style={styles.artist}>{albumData.artist}</Text>
+            <Text style={styles.releaseDate}>{albumData.releaseDate}</Text>
+            <Text style={styles.duration}>{albumData.duration}</Text>
+          </View>
         </View>
 
         <View style={styles.tabsContainer}>

@@ -187,35 +187,35 @@ const mockAlbuns = [
     title: "Stanboy",
     artist: "The Soundy",
     year: "2008",
-    image: "https://www.eventim.com.br/obj/media/BR-eventim/galery/kuenstler/a/avril-lavigne-eventim-1.jpg"
+    image: "https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452"
   },
   {
     id: 2,
     title: "Clocks", 
     artist: "Coloring",
     year: "2009",
-    image: "https://www.eventim.com.br/obj/media/BR-eventim/galery/kuenstler/a/avril-lavigne-eventim-1.jpg"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1Vhmy2Q_Z3bSn7ySSelVFdAxn0bnjt4Ot0Q&s"
   },
   {
     id: 3,
     title: "Espresso",
     artist: "Austrian Chrysomber",
     year: "2004",
-    image: "https://www.eventim.com.br/obj/media/BR-eventim/galery/kuenstler/a/avril-lavigne-eventim-1.jpg"
+    image: "https://i1.sndcdn.com/artworks-JmEzUTtysnlJQLLz-xYCFCA-t1080x1080.jpg"
   },
   {
     id: 4,
     title: "Soft Universe",
     artist: "Augsno", 
     year: "2003",
-    image: "https://www.eventim.com.br/obj/media/BR-eventim/galery/kuenstler/a/avril-lavigne-eventim-1.jpg"
+    image: "https://tiermaker.com/images/chart/chart/aurora---all-songs-1332115/zz1639013812soft-universe-minpng.png"
   },
   {
     id: 5,
     title: "BIRDS OF A FEATHER",
     artist: "BILLION BELLON",
     year: "2006",
-    image: "https://www.eventim.com.br/obj/media/BR-eventim/galery/kuenstler/a/avril-lavigne-eventim-1.jpg"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5d2kuOjLrl2aNJJdoQ5PO6UGTpAQ6ZCl2uTpNGIf1LN5vzCXEOU3254viRhAM6v8EtM8&usqp=CAU"
   }
 ];
 
