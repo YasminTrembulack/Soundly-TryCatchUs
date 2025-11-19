@@ -184,48 +184,69 @@ export default function AlbunsScreen({ navigation }) {
   const [albums, setAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+
+  const [filterType, setFilterType] = useState("title"); // title | artist
   const [searchText, setSearchText] = useState("");
-  const [title, setTitle] = useState("");
-  const [artist, setArtist] = useState("");
+
   const [pagination, setPagination] = useState(null);
   const [page, setPage] = useState(1);
-  const limit = 50; // quantidade por página
+
+  const limit = 50;
 
   async function carregarAlbums(params = {}) {
-    setLoading(true);
+    const currentPage = params.page || page;
+
+    if (!params.silent) setLoading(true);
 
     try {
       const query = {
-        skip: ((params.page || page) - 1) * limit,
+        skip: (currentPage - 1) * limit,
         limit,
-        title: (params.title ?? title) || undefined,
-        artist: (params.artist ?? artist) || undefined,
       };
 
+      // aplica somente o filtro selecionado
+      if (searchText.trim() !== "") {
+        if (filterType === "title") query.title = searchText.trim();
+        if (filterType === "artist") query.artist = searchText.trim();
+      }
+
       const dados = await getData("/albums", query);
-      console.log("📀 Álbuns carregados:", dados);
 
       setAlbums(dados.data || []);
       setPagination(dados.pagination || {});
     } catch (err) {
-      console.error("❌ Falha ao carregar álbums:", err);
+      console.error("❌ Falha ao carregar álbuns:", err);
     } finally {
-      setLoading(false);
+      if (!params.silent) setLoading(false);
     }
+  }
+
+  function aplicarFiltro() {
+    setPage(1);
+    carregarAlbums({ page: 1 });
+  }
+
+  function limparFiltros() {
+    setSearchText("");
+    setSearchText("");
+    setPage(1);
+    carregarAlbums({ page: 1 });
   }
 
   function carregarMais(direction) {
     const nextPage = page + direction;
 
-    // Atualiza página no estado
     setPage(nextPage);
+    setLoadingMore(true);
 
-    carregarAlbums({ page: nextPage });
+    carregarAlbums({ page: nextPage, silent: true }).finally(() =>
+      setLoadingMore(false)
+    );
   }
 
   useEffect(() => {
     carregarAlbums();
-  }, []);
+  }, [filterType]);
 
   if (loading) {
     return (
@@ -238,26 +259,84 @@ export default function AlbunsScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      {/* HEADER */}
       <View style={styles.header}>
         <Text style={styles.title}>SoundLY</Text>
         <Text style={styles.screenTitle}>Álbuns</Text>
       </View>
 
+      {/* SEARCH + BUTTON */}
       <View style={styles.searchContainer}>
         <Text style={styles.searchIcon}>🔍</Text>
         <TextInput
           style={styles.searchInput}
-          placeholder="Pesquisar álbuns..."
+          placeholder="Pesquisar..."
           placeholderTextColor={colors.light}
           value={searchText}
-          onChangeText={setSearchText}
+          onChangeText={(txt) => setSearchText(txt)}
         />
+
+        <TouchableOpacity
+          onPress={aplicarFiltro}
+          style={{
+            backgroundColor: colors.primary,
+            paddingVertical: 6,
+            paddingHorizontal: 12,
+            borderRadius: 8,
+            marginLeft: 8,
+          }}
+        >
+          <Text style={{ color: colors.text, fontWeight: "bold" }}>Buscar</Text>
+        </TouchableOpacity>
       </View>
 
+      {/* FILTERS */}
       <View style={styles.filtersContainer}>
         <Text style={styles.filtersTitle}>FILTROS</Text>
+
+        <TouchableOpacity
+          onPress={limparFiltros}
+          style={{
+            paddingVertical: 6,
+            paddingHorizontal: 14,
+            borderRadius: 6,
+            marginRight: 8,
+            backgroundColor: colors.dark,
+          }}
+        >
+          <Text style={{ color: colors.text }}>Limpar Filtros</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setFilterType("title")}
+          style={{
+            paddingVertical: 6,
+            paddingHorizontal: 14,
+            borderRadius: 6,
+            marginRight: 8,
+            backgroundColor:
+              filterType === "title" ? colors.primary : colors.dark,
+          }}
+        >
+          <Text style={{ color: colors.text }}>Título</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setFilterType("artist")}
+          style={{
+            paddingVertical: 6,
+            paddingHorizontal: 14,
+            borderRadius: 6,
+            marginRight: 8,
+            backgroundColor:
+              filterType === "artist" ? colors.primary : colors.dark,
+          }}
+        >
+          <Text style={{ color: colors.text }}>Artista</Text>
+        </TouchableOpacity>
       </View>
 
+      {/* ALBUM GRID */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ flex: 1 }}
@@ -290,6 +369,7 @@ export default function AlbunsScreen({ navigation }) {
             </TouchableOpacity>
           ))}
 
+          {/* PREVIOUS PAGE */}
           {pagination?.has_previous && (
             <TouchableOpacity
               onPress={() => carregarMais(-1)}
@@ -312,6 +392,7 @@ export default function AlbunsScreen({ navigation }) {
             </TouchableOpacity>
           )}
 
+          {/* NEXT PAGE */}
           {pagination?.has_next && (
             <TouchableOpacity
               onPress={() => carregarMais(1)}
@@ -336,6 +417,7 @@ export default function AlbunsScreen({ navigation }) {
         </View>
       </ScrollView>
 
+      {/* NAV */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem} onPress={() => {}}>
           <Text style={[styles.navIcon, styles.activeNav]}>🎵</Text>
