@@ -4,30 +4,30 @@
  * Apenas removi o botão play - estrutura mantida intacta
  */
 
-import React, { useEffect, useState } from 'react';
-import { 
-  View, 
-  Text, 
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
   TextInput,
-  ScrollView, 
-  TouchableOpacity, 
+  ScrollView,
+  TouchableOpacity,
   ActivityIndicator,
   Image,
-  StyleSheet 
+  StyleSheet,
 } from "react-native";
 
 import { getData } from "../services/apiHelpers";
 
 // PALETA DE CORES (mantida)
 const colors = {
-  primary: '#7B2CBF',
-  secondary: '#5A189A',
-  dark: '#240046',
-  light: '#C77DFF',
-  accent: '#E0AAFF',
-  background: '#070110',
-  text: '#FFFFFF',
-  cardBackground: '#100039'
+  primary: "#7B2CBF",
+  secondary: "#5A189A",
+  dark: "#240046",
+  light: "#C77DFF",
+  accent: "#E0AAFF",
+  background: "#070110",
+  text: "#FFFFFF",
+  cardBackground: "#100039",
 };
 
 const styles = StyleSheet.create({
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   title: {
@@ -45,19 +45,19 @@ const styles = StyleSheet.create({
     fontSize: 42,
     fontWeight: "bold",
     color: colors.accent,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 8,
   },
   screenTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.text,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 16,
   },
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.cardBackground,
     borderRadius: 10,
     paddingHorizontal: 15,
@@ -81,47 +81,47 @@ const styles = StyleSheet.create({
   },
   filtersTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.light,
     marginBottom: 8,
   },
-  
+
   // Grid de álbuns SEM botão play
   albumsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
     marginBottom: 70,
   },
   albumCard: {
-    width: '48%',
+    width: "48%",
     height: 170,
     backgroundColor: colors.cardBackground,
     borderRadius: 12,
     marginBottom: 12,
-    overflow: 'hidden',
+    overflow: "hidden",
     borderWidth: 1,
     borderColor: colors.primary,
-    position: 'relative',
+    position: "relative",
   },
   albumImage: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
+    width: "100%",
+    height: "100%",
+    position: "absolute",
   },
   imageOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(7, 1, 16, 0.4)',
+    backgroundColor: "rgba(7, 1, 16, 0.4)",
   },
   albumInfo: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 10,
     left: 10,
     right: 10,
   },
   albumTitle: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.accent,
     marginBottom: 3,
   },
@@ -133,29 +133,29 @@ const styles = StyleSheet.create({
   albumYear: {
     fontSize: 9,
     color: colors.light,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   // REMOVIDOS: estilos playButton e playIcon
 
   // Loading e estados
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   loadingText: {
     color: colors.light,
     marginTop: 10,
   },
-  
+
   // Bottom Navigation
   bottomNav: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: colors.cardBackground,
     paddingVertical: 12,
     borderTopWidth: 1,
     borderTopColor: colors.primary,
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
@@ -163,8 +163,8 @@ const styles = StyleSheet.create({
   },
   navItem: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   navIcon: {
     fontSize: 18,
@@ -177,56 +177,19 @@ const styles = StyleSheet.create({
   },
   activeNav: {
     color: colors.accent,
-  }
+  },
 });
-
-// Dados mock (mantidos)
-const mockAlbuns = [
-  {
-    id: 1,
-    title: "Stanboy",
-    artist: "The Soundy",
-    year: "2008",
-    image: "https://www.eventim.com.br/obj/media/BR-eventim/galery/kuenstler/a/avril-lavigne-eventim-1.jpg"
-  },
-  {
-    id: 2,
-    title: "Clocks", 
-    artist: "Coloring",
-    year: "2009",
-    image: "https://www.eventim.com.br/obj/media/BR-eventim/galery/kuenstler/a/avril-lavigne-eventim-1.jpg"
-  },
-  {
-    id: 3,
-    title: "Espresso",
-    artist: "Austrian Chrysomber",
-    year: "2004",
-    image: "https://www.eventim.com.br/obj/media/BR-eventim/galery/kuenstler/a/avril-lavigne-eventim-1.jpg"
-  },
-  {
-    id: 4,
-    title: "Soft Universe",
-    artist: "Augsno", 
-    year: "2003",
-    image: "https://www.eventim.com.br/obj/media/BR-eventim/galery/kuenstler/a/avril-lavigne-eventim-1.jpg"
-  },
-  {
-    id: 5,
-    title: "BIRDS OF A FEATHER",
-    artist: "BILLION BELLON",
-    year: "2006",
-    image: "https://www.eventim.com.br/obj/media/BR-eventim/galery/kuenstler/a/avril-lavigne-eventim-1.jpg"
-  }
-];
 
 export default function AlbunsScreen({ navigation }) {
   const [albums, setAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchText, setSearchText] = useState('');
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [searchText, setSearchText] = useState("");
   const [title, setTitle] = useState("");
   const [artist, setArtist] = useState("");
+  const [pagination, setPagination] = useState(null);
   const [page, setPage] = useState(1);
-  const limit = 10; // quantidade por página
+  const limit = 50; // quantidade por página
 
   async function carregarAlbums(params = {}) {
     setLoading(true);
@@ -243,6 +206,7 @@ export default function AlbunsScreen({ navigation }) {
       console.log("📀 Álbuns carregados:", dados);
 
       setAlbums(dados.data || []);
+      setPagination(dados.pagination || {});
     } catch (err) {
       console.error("❌ Falha ao carregar álbums:", err);
     } finally {
@@ -250,14 +214,18 @@ export default function AlbunsScreen({ navigation }) {
     }
   }
 
+  function carregarMais(direction) {
+    const nextPage = page + direction;
+
+    // Atualiza página no estado
+    setPage(nextPage);
+
+    carregarAlbums({ page: nextPage });
+  }
+
   useEffect(() => {
     carregarAlbums();
   }, []);
-
-  const filteredAlbuns = albuns.filter(album =>
-    album.title.toLowerCase().includes(searchText.toLowerCase()) ||
-    album.artist.toLowerCase().includes(searchText.toLowerCase())
-  );
 
   if (loading) {
     return (
@@ -290,60 +258,101 @@ export default function AlbunsScreen({ navigation }) {
         <Text style={styles.filtersTitle}>FILTROS</Text>
       </View>
 
-      <ScrollView 
-        showsVerticalScrollIndicator={false} 
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{ flex: 1 }}
         contentContainerStyle={{ paddingBottom: 10 }}
       >
         <View style={styles.albumsGrid}>
-          {filteredAlbuns.map((album) => (
-            <TouchableOpacity 
+          {albums.map((album) => (
+            <TouchableOpacity
               key={album.id}
               style={styles.albumCard}
-              onPress={() => navigation.navigate("Detalhes", { albumId: album.id })}
+              onPress={() =>
+                navigation.navigate("Detalhes", { albumId: album.id })
+              }
             >
-              <Image 
-                source={{ uri: album.image }} 
+              <Image
+                source={{ uri: album.images[0].url }}
                 style={styles.albumImage}
               />
               <View style={styles.imageOverlay} />
-              
+
               <View style={styles.albumInfo}>
                 <Text style={styles.albumTitle} numberOfLines={1}>
-                  {album.title}
+                  {album.name}
                 </Text>
                 <Text style={styles.albumArtist} numberOfLines={1}>
-                  {album.artist}
+                  {album.tracks[0].artists[0].name}
                 </Text>
                 <Text style={styles.albumYear}>{album.year}</Text>
               </View>
-
-              {/* REMOVIDO: Botão de play */}
             </TouchableOpacity>
           ))}
+
+          {pagination?.has_previous && (
+            <TouchableOpacity
+              onPress={() => carregarMais(-1)}
+              disabled={loadingMore}
+              style={{
+                backgroundColor: colors.primary,
+                borderRadius: 10,
+                paddingVertical: 10,
+                alignItems: "center",
+                marginVertical: 16,
+              }}
+            >
+              {loadingMore ? (
+                <ActivityIndicator color={colors.text} />
+              ) : (
+                <Text style={{ color: colors.text, fontWeight: "bold" }}>
+                  Página anterior
+                </Text>
+              )}
+            </TouchableOpacity>
+          )}
+
+          {pagination?.has_next && (
+            <TouchableOpacity
+              onPress={() => carregarMais(1)}
+              disabled={loadingMore}
+              style={{
+                backgroundColor: colors.primary,
+                borderRadius: 10,
+                paddingVertical: 10,
+                alignItems: "center",
+                marginVertical: 16,
+              }}
+            >
+              {loadingMore ? (
+                <ActivityIndicator color={colors.text} />
+              ) : (
+                <Text style={{ color: colors.text, fontWeight: "bold" }}>
+                  Próxima página
+                </Text>
+              )}
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
 
       <View style={styles.bottomNav}>
-        <TouchableOpacity 
-          style={styles.navItem}
-          onPress={() => {}}
-        >
+        <TouchableOpacity style={styles.navItem} onPress={() => {}}>
           <Text style={[styles.navIcon, styles.activeNav]}>🎵</Text>
           <Text style={[styles.navLabel, styles.activeNav]}>Álbuns</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.navItem}
-          onPress={() => navigation.navigate('Playlists')}
+          onPress={() => navigation.navigate("Playlists")}
         >
           <Text style={styles.navIcon}>📋</Text>
           <Text style={styles.navLabel}>Playlists</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.navItem}
-          onPress={() => navigation.navigate('Perfil')}
+          onPress={() => navigation.navigate("Perfil")}
         >
           <Text style={styles.navIcon}>👤</Text>
           <Text style={styles.navLabel}>Perfil</Text>

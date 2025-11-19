@@ -5,7 +5,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import AlbunsScreen from '../screens/AlbunsScreen';
 import PlaylistsScreen from '../screens/PlaylistsScreen';
 import PerfilScreen from '../screens/PerfilScreen';
-import DetalhesScreen from '../screens/DetalhesScreen';
+import DetalhesDoAlbumScreen from '../screens/DetalhesDoAlbumScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +23,7 @@ export default function RootStackNavigator() {
       <Stack.Screen name="Albuns" component={AlbunsScreen} />
       <Stack.Screen name="Playlists" component={PlaylistsScreen} />
       <Stack.Screen name="Perfil" component={PerfilScreen} />
-      <Stack.Screen name="Detalhes" component={DetalhesScreen} />
+      <Stack.Screen name="Detalhes" component={DetalhesDoAlbumScreen} />
     </Stack.Navigator>
   );
 }
