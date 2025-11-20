@@ -1,7 +1,7 @@
 /**
  * /src/screens/DetalhesScreen.js
- * Tela de detalhes do álbum - Com ícone flutuante discreto ↶
- * ATUALIZADO: Imagens reais dos álbuns
+ * Tela de detalhes do álbum - COM IMAGENS NAS MÚSICAS
+ * ATUALIZADO: Imagens reais em cada música + artistas corretos
  */
 
 import React, { useState } from 'react';
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backIconText: {
-    fontSize: 28, // Tamanho bom para visualização
-    color: '#C77DFF', // Cor que você escolheu - hellotrope
+    fontSize: 28,
+    color: '#C77DFF',
     fontWeight: 'bold',
   },
   header: {
@@ -125,20 +125,25 @@ const styles = StyleSheet.create({
     fontFamily: "RobotoCondensed_700Bold",
   },
   
-  // Lista de Músicas
+  // Lista de Músicas COM IMAGENS
   tracksList: {
     flex: 1,
   },
   trackItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: colors.persianIndigo,
-    padding: 16,
+    padding: 12,
     borderRadius: 8,
     marginBottom: 10,
     borderWidth: 1,
     borderColor: colors.frenchViolet,
+  },
+  trackImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 6,
+    marginRight: 12,
   },
   trackInfo: {
     flex: 1,
@@ -149,22 +154,30 @@ const styles = StyleSheet.create({
     color: colors.mauve,
     marginBottom: 4,
   },
-  trackYear: {
+  trackArtist: {
     fontFamily: "AnonymousPro_400Regular",
     fontSize: 12,
     color: colors.hellotrope,
+    marginBottom: 2,
+  },
+  trackYear: {
+    fontFamily: "AnonymousPro_400Regular",
+    fontSize: 11,
+    color: colors.hellotrope,
+    fontStyle: 'italic',
   },
   trackDuration: {
     fontFamily: "RobotoCondensed_700Bold",
     fontSize: 14,
     color: colors.tekhelet,
+    marginLeft: 10,
   },
 });
 
 export default function DetalhesScreen({ route, navigation }) {
   const [activeTab, setActiveTab] = useState('Misicas');
   
-  // Dados do álbum ATUALIZADOS com imagem real
+  // Dados do álbum ATUALIZADOS com imagens e artistas corretos
   const albumData = {
     title: "From Zero",
     artist: "Linkin Park",
@@ -174,44 +187,50 @@ export default function DetalhesScreen({ route, navigation }) {
     tracks: [
       { 
         id: 1, 
-        title: "Stanboy", 
+        title: "Starboy", 
+        artist: "The Weeknd ft. Daft Punk",
         duration: "3:45", 
-        year: "The world 2018",
+        year: "2016",
         image: "https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452"
       },
       { 
         id: 2, 
         title: "Clocks", 
+        artist: "Coldplay",
         duration: "4:20", 
-        year: "30.09.1997-2002",
+        year: "2002",
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1Vhmy2Q_Z3bSn7ySSelVFdAxn0bnjt4Ot0Q&s"
       },
       { 
         id: 3, 
         title: "Espresso", 
+        artist: "Sabrina Carpenter",
         duration: "3:15", 
-        year: "Start to Complete - 2004",
+        year: "2024",
         image: "https://i1.sndcdn.com/artworks-JmEzUTtysnlJQLLz-xYCFCA-t1080x1080.jpg"
       },
       { 
         id: 4, 
         title: "Soft Universe", 
+        artist: "AURORA",
         duration: "3:30", 
-        year: "AUGUST 2018",
+        year: "2018",
         image: "https://tiermaker.com/images/chart/chart/aurora---all-songs-1332115/zz1639013812soft-universe-minpng.png"
       },
       { 
         id: 5, 
         title: "BIRDS OF A FEATHER", 
+        artist: "Billie Eilish",
         duration: "3:55", 
-        year: "BILLIE ELLEN 2009",
+        year: "2024",
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5d2kuOjLrl2aNJJdoQ5PO6UGTpAQ6ZCl2uTpNGIf1LN5vzCXEOU3254viRhAM6v8EtM8&usqp=CAU"
       },
       { 
         id: 6, 
         title: "Baby", 
+        artist: "Justin Bieber ft. Ludacris",
         duration: "3:10", 
-        year: "JACKET RIGHT 2018",
+        year: "2010",
         image: "https://upload.wikimedia.org/wikipedia/pt/thumb/a/ad/Baby_Single.jpg/250px-Baby_Single.jpg"
       }
     ]
@@ -247,13 +266,18 @@ export default function DetalhesScreen({ route, navigation }) {
                 key={track.id} 
                 style={styles.trackItem}
                 onPress={() => {
-                  console.log(`Tocando: ${track.title}`);
+                  console.log(`Tocando: ${track.title} - ${track.artist}`);
                   // Aqui você pode navegar para DetalhesMusicaScreen depois
                   // navigation.navigate('DetalhesMusica', { trackId: track.id });
                 }}
               >
+                <Image 
+                  source={{ uri: track.image }} 
+                  style={styles.trackImage}
+                />
                 <View style={styles.trackInfo}>
                   <Text style={styles.trackTitle}>{track.title}</Text>
+                  <Text style={styles.trackArtist}>{track.artist}</Text>
                   <Text style={styles.trackYear}>{track.year}</Text>
                 </View>
                 <Text style={styles.trackDuration}>{track.duration}</Text>
