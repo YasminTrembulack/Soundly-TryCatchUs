@@ -2,10 +2,6 @@ import { StyleSheet } from "react-native";
 import colors from "./colors";
 
 export default StyleSheet.create({
-  header: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -92,5 +88,6 @@ export default StyleSheet.create({
   loadingText: {
     color: colors.light,
     marginTop: 10,
-  }
+  },
+
 });
