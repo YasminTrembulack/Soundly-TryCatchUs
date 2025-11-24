@@ -14,6 +14,7 @@ import {
 } from "react-native";
 
 import { getData } from "../services/apiHelpers";
+import { getMainArtist } from "../utils/getMainArtist";
 
 
 export default function AlbunsScreen({ navigation }) {
@@ -86,9 +87,9 @@ export default function AlbunsScreen({ navigation }) {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={globals.loadingContainer}>
         <ActivityIndicator size="large" color={colors.accent} />
-        <Text style={styles.loadingText}>Carregando álbuns...</Text>
+        <Text style={globals.loadingText}>Carregando álbuns...</Text>
       </View>
     );
   }
@@ -96,7 +97,7 @@ export default function AlbunsScreen({ navigation }) {
   return (
     <View style={globals.container}>
       {/* HEADER */}
-      <View style={styles.header}>
+      <View style={globals.header}>
         <Text style={globals.title}>SoundLY</Text>
         <Text style={globals.screenTitle}>Álbuns</Text>
       </View>
@@ -184,7 +185,7 @@ export default function AlbunsScreen({ navigation }) {
               key={album.id}
               style={styles.albumCard}
               onPress={() =>
-                navigation.navigate("Detalhes", { albumId: album.id })
+                navigation.navigate("DetalhesA", { albumId: album.id })
               }
             >
               <Image
@@ -198,7 +199,7 @@ export default function AlbunsScreen({ navigation }) {
                   {album.name}
                 </Text>
                 <Text style={styles.albumArtist} numberOfLines={1}>
-                  {album.tracks[0].artists[0].name}
+                  {getMainArtist(album)}
                 </Text>
                 <Text style={styles.albumYear}>{album.year}</Text>
               </View>
@@ -210,18 +211,12 @@ export default function AlbunsScreen({ navigation }) {
             <TouchableOpacity
               onPress={() => carregarMais(-1)}
               disabled={loadingMore}
-              style={{
-                backgroundColor: colors.primary,
-                borderRadius: 10,
-                paddingVertical: 10,
-                alignItems: "center",
-                marginVertical: 16,
-              }}
+              style={globals.button}
             >
               {loadingMore ? (
                 <ActivityIndicator color={colors.text} />
               ) : (
-                <Text style={{ color: colors.text, fontWeight: "bold" }}>
+                <Text style={globals.buttonText}>
                   Página anterior
                 </Text>
               )}
@@ -233,18 +228,12 @@ export default function AlbunsScreen({ navigation }) {
             <TouchableOpacity
               onPress={() => carregarMais(1)}
               disabled={loadingMore}
-              style={{
-                backgroundColor: colors.primary,
-                borderRadius: 10,
-                paddingVertical: 10,
-                alignItems: "center",
-                marginVertical: 16,
-              }}
+              style={globals.button}
             >
               {loadingMore ? (
                 <ActivityIndicator color={colors.text} />
               ) : (
-                <Text style={{ color: colors.text, fontWeight: "bold" }}>
+                <Text style={globals.buttonText}>
                   Próxima página
                 </Text>
               )}
@@ -255,7 +244,7 @@ export default function AlbunsScreen({ navigation }) {
 
       {/* NAV */}
       <View style={globals.bottomNav}>
-        <TouchableOpacity style={globals.navItem} onPress={() => {}}>
+        <TouchableOpacity style={globals.navItem} onPress={() => navigation.navigate("Albuns")}>
           <Text style={[globals.navIcon, globals.activeNav]}>🎵</Text>
           <Text style={[globals.navLabel, globals.activeNav]}>Álbuns</Text>
         </TouchableOpacity>
