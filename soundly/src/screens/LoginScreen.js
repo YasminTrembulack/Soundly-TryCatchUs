@@ -1,97 +1,16 @@
 // src/screens/LoginScreen.js
 import React, { useContext, useState } from 'react';
+import globals from "../styles/globals";
+import styles from "../styles/auth";
+import colors from "../styles/colors";
 import { 
   View, 
   Text, 
   TextInput, 
   TouchableOpacity, 
-  Alert,
-  StyleSheet
+  Alert
 } from 'react-native';
 import { UserContext } from '../context/UserContext';
-
-// PALETA DE CORES
-const colors = {
-  primary: '#7B2CBF',     // Roxo principal (French violet)
-  secondary: '#5A189A',   // Roxo escuro (Russian violet)
-  dark: '#240046',        // Roxo muito escuro
-  light: '#C77DFF',       // Roxo claro
-  accent: '#E0AAFF',      // Roxo muito claro
-  background: '#070110',  // Fundo preto azulado
-  text: '#FFFFFF',        // Texto branco
-  inputBackground: '#100039' // Fundo dos inputs
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: colors.background,
-  },
-  title: {
-    fontFamily: "Caveat_400Regular",
-    fontSize: 60,
-    fontWeight: "bold",
-    color: colors.accent,
-    textAlign: 'center',
-    marginBottom: 10, // Reduzi o marginBottom
-  },
-  subtitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 40,
-    color: colors.text,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
-    color: colors.light,
-    fontWeight: '600'
-  },
-  input: {
-    height: 50,
-    backgroundColor: colors.inputBackground,
-    borderWidth: 1,
-    borderColor: colors.primary,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 20,
-    fontSize: 16,
-    color: colors.text
-  },
-  button: {
-    height: 50,
-    backgroundColor: colors.primary,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 10
-  },
-  buttonText: {
-    color: colors.text,
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
-  registerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  registerText: {
-    color: colors.light,
-    fontSize: 16,
-  },
-  registerLink: {
-    color: colors.accent,
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginLeft: 5,
-  }
-});
 
 export default function LoginScreen({ navigation }) {
   const { login } = useContext(UserContext);
@@ -123,9 +42,9 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>SoundLY</Text>
-      <Text style={styles.subtitle}>LOGIN</Text> {/* ADICIONADO */}
+    <View style={globals.container}>
+      <Text style={globals.soundly}>SoundLY</Text>
+      <Text style={globals.subtitle}>LOGIN</Text>
       
       <Text style={styles.label}>Username:</Text>
       <TextInput
@@ -152,11 +71,10 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.buttonText}>ENTRAR</Text>
       </TouchableOpacity>
 
-      {/* Container para o texto de cadastro - CLICÁVEL */}
-      <View style={styles.registerContainer}>
-        <Text style={styles.registerText}>Não possui conta ainda?</Text>
+      <View style={styles.authContainer}>
+        <Text style={styles.authText}>Não possui conta ainda?</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.registerLink}>Cadastre-se</Text>
+          <Text style={styles.link}>Cadastre-se</Text>
         </TouchableOpacity>
       </View>
     </View>
