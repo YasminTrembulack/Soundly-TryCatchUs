@@ -2,6 +2,8 @@
 
 # [Database Dump](https://drive.google.com/file/d/1UiNxLYdEhpua8qL5Fc2QsQIFbAFEKTr2/view?usp=sharing)
 
+ola!!!
+
 ## Especificação de Cada Projeto
 
 Projeto mobile em **React-Native** em que cada equipe apresenta, em formato de seminário, o resultado da criação de um app específico.

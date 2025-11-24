@@ -1,23 +1,18 @@
 // src/screens/PerfilScreen.js
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import globals from "../styles/globals";
-import { 
-  View, 
-  Text, 
-  TouchableOpacity, 
-  StyleSheet 
-} from 'react-native';
-import { UserContext } from '../context/UserContext';
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { UserContext } from "../context/UserContext";
 
 const colors = {
-  primary: '#7B2CBF',
-  secondary: '#5A189A',
-  dark: '#240046',
-  light: '#C77DFF',
-  accent: '#E0AAFF',
-  background: '#070110',
-  text: '#FFFFFF',
-  cardBackground: '#100039'
+  primary: "#7B2CBF",
+  secondary: "#5A189A",
+  dark: "#240046",
+  light: "#C77DFF",
+  accent: "#E0AAFF",
+  background: "#070110",
+  text: "#FFFFFF",
+  cardBackground: "#100039",
 };
 
 const styles = StyleSheet.create({
@@ -27,7 +22,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 30,
   },
   title: {
@@ -35,14 +30,14 @@ const styles = StyleSheet.create({
     fontSize: 48,
     fontWeight: "bold",
     color: colors.accent,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 10,
   },
   screenTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.text,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 30,
   },
   card: {
@@ -62,16 +57,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 20,
   },
   buttonText: {
     color: colors.text,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   bottomNav: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: colors.cardBackground,
     paddingVertical: 15,
     borderTopWidth: 1,
@@ -79,8 +74,8 @@ const styles = StyleSheet.create({
   },
   navItem: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   navIcon: {
     fontSize: 20,
@@ -93,7 +88,7 @@ const styles = StyleSheet.create({
   },
   activeNav: {
     color: colors.accent,
-  }
+  },
 });
 
 export default function PerfilScreen({ navigation }) {
@@ -101,19 +96,21 @@ export default function PerfilScreen({ navigation }) {
 
   const handleLogout = () => {
     logout();
-    navigation.navigate('Login');
+    navigation.navigate("Login");
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={globals.container}>
+      <View style={globals.header}>
         <Text style={styles.title}>SoundLY</Text>
         <Text style={styles.screenTitle}>Perfil</Text>
       </View>
 
       <View style={styles.card}>
-        <Text style={styles.cardText}>Usuário: {user?.username || 'Visitante'}</Text>
-        <Text style={styles.cardText}>Tipo: {user?.role || 'Usuário'}</Text>
+        <Text style={styles.cardText}>
+          Usuário: {user?.username || "Visitante"}
+        </Text>
+        <Text style={styles.cardText}>Tipo: {user?.role || "Usuário"}</Text>
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleLogout}>
@@ -121,29 +118,26 @@ export default function PerfilScreen({ navigation }) {
       </TouchableOpacity>
 
       {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity 
-          style={styles.navItem}
-          onPress={() => navigation.navigate('Albuns')}
-        >
-          <Text style={styles.navIcon}>🎵</Text>
-          <Text style={styles.navLabel}>Álbuns</Text>
+      <View style={globals.bottomNav}>
+        <TouchableOpacity style={globals.navItem} onPress={() => navigation.navigate("Albuns")}>
+          <Text style={[globals.navIcon, globals.activeNav]}>🎵</Text>
+          <Text style={[globals.navLabel, globals.activeNav]}>Álbuns</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={styles.navItem}
-          onPress={() => navigation.navigate('Playlists')}
+        <TouchableOpacity
+          style={globals.navItem}
+          onPress={() => navigation.navigate("Playlists")}
         >
-          <Text style={styles.navIcon}>📋</Text>
-          <Text style={styles.navLabel}>Playlists</Text>
+          <Text style={globals.navIcon}>📋</Text>
+          <Text style={globals.navLabel}>Playlists</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={styles.navItem}
-          onPress={() => {}}
+        <TouchableOpacity
+          style={globals.navItem}
+          onPress={() => navigation.navigate("Perfil")}
         >
-          <Text style={[styles.navIcon, styles.activeNav]}>👤</Text>
-          <Text style={[styles.navLabel, styles.activeNav]}>Perfil</Text>
+          <Text style={globals.navIcon}>👤</Text>
+          <Text style={globals.navLabel}>Perfil</Text>
         </TouchableOpacity>
       </View>
     </View>
