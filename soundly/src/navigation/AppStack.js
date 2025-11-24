@@ -13,14 +13,9 @@ export default function AppStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="DetalhesA"
+        name="Detalhes"
         component={AlbumDetailsScreen}
-        options={{ title: "Detalhes do Albúm" }}
-      />
-      <Stack.Screen
-        name="DetalhesM"
-        component={AlbumDetailsScreen}
-        options={{ title: "Detalhes da Música" }}
+        options={{ title: "Detalhes" }}
       />
     </Stack.Navigator>
   );

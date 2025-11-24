@@ -185,7 +185,7 @@ export default function AlbunsScreen({ navigation }) {
               key={album.id}
               style={styles.albumCard}
               onPress={() =>
-                navigation.navigate("DetalhesA", { albumId: album.id })
+                navigation.navigate("Detalhes", { id: album.id, type: "album" })
               }
             >
               <Image
