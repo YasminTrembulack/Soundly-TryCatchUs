@@ -1,83 +1,57 @@
-// src/screens/PlaylistsScreen.js
+import { useContext, useState, useEffect } from "react";
 import globals from "../styles/globals";
 import styles from "../styles/playlists";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import colors from "../styles/colors";
 
-// Função para obter ícone baseado no tipo de playlist
-const getPlaylistIcon = (iconType) => {
-  const icons = {
-    "musical-notes": "🎵",
-    heart: "❤️",
-    star: "⭐",
-    headset: "🎧",
-    experiment: "🧪",
-    trophy: "🏆",
-    cloud: "☁️",
-  };
-  return icons[iconType] || "🎵";
-};
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import { PlaylistContext } from "../context/PlaylistContext";
+import { getPlaylistIcon } from "../utils/getPlaylistIcon";
+import { UserContext } from "../context/UserContext";
 
-// Dados mock de playlists baseados na imagem
-const mockPlaylists = [
-  {
-    id: 1,
-    title: "Escape pole studio...",
-    songs: 12,
-    duration: "45 min",
-    date: "29/10/2005",
-    icon: "musical-notes",
-  },
-  {
-    id: 2,
-    title: "Favoritas",
-    songs: 25,
-    duration: "1h 20min",
-    date: "29/10/2005",
-    icon: "heart",
-  },
-  {
-    id: 3,
-    title: "Musicas boas!!",
-    songs: 18,
-    duration: "55 min",
-    date: "29/10/2005",
-    icon: "star",
-  },
-  {
-    id: 4,
-    title: "Electronicsa",
-    songs: 15,
-    duration: "45 min",
-    date: "30/10/2005",
-    icon: "headset",
-  },
-  {
-    id: 5,
-    title: "Tests :)",
-    songs: 8,
-    duration: "25 min",
-    date: "30/10/2005",
-    icon: "experiment",
-  },
-  {
-    id: 6,
-    title: "Top Musicae",
-    songs: 22,
-    duration: "1h 15min",
-    date: "20/10/2005",
-    icon: "trophy",
-  },
-  {
-    id: 7,
-    title: "Relaxx",
-    songs: 10,
-    duration: "35 min",
-    date: "20/10/2005",
-    icon: "cloud",
-  },
-];
 
 export default function PlaylistsScreen({ navigation }) {
+  const { getPlaylistsByUserId } = useContext(PlaylistContext);
+  const { user } = useContext(UserContext);
+
+  const [playlists, setPlaylists] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Carrega playlists do usuário
+  async function carregarPlaylists() {
+    if (!user?.id) return;
+
+    setLoading(true);
+    try {
+      const userPlaylists = await getPlaylistsByUserId(user.id);
+      console.log(`Playlists: ${userPlaylists}`);
+      
+      setPlaylists(userPlaylists);
+    } catch (err) {
+      console.error("Erro ao carregar playlists:", err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    carregarPlaylists();
+  }, [user]);
+
+  if (loading) {
+    return (
+      <View style={globals.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.accent} />
+        <Text style={globals.loadingText}>Carregando playlists...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={globals.container}>
       <View style={styles.header}>
@@ -86,12 +60,12 @@ export default function PlaylistsScreen({ navigation }) {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {mockPlaylists.map((playlist) => (
+        {playlists.map((playlist) => (
           <TouchableOpacity
             key={playlist.id}
             style={styles.playlistCard}
             onPress={() =>
-              navigation.navigate("Detalhes", { playlistId: playlist.id })
+              navigation.navigate("Detalhes", { id: playlist.id, type: "playlist" })
             }
           >
             <View style={styles.playlistIcon}>
@@ -100,12 +74,13 @@ export default function PlaylistsScreen({ navigation }) {
               </Text>
             </View>
             <View style={styles.playlistContent}>
-              <Text style={styles.playlistTitle}>{playlist.title}</Text>
-              <Text style={styles.playlistInfo}>
-                {playlist.songs} músicas • {playlist.duration}
-              </Text>
+              <Text style={styles.playlistTitle}>{playlist.playlistName}</Text>
               <Text style={styles.playlistDate}>
-                Cristian am: {playlist.date}
+                Criado em:{" "}
+                {new Date(playlist.created_at).toLocaleDateString("pt-BR")}
+              </Text>
+              <Text style={styles.playlistInfo}>
+                {playlist.tracks.length} músicas
               </Text>
             </View>
           </TouchableOpacity>
@@ -114,7 +89,10 @@ export default function PlaylistsScreen({ navigation }) {
 
       {/* Bottom Navigation */}
       <View style={globals.bottomNav}>
-        <TouchableOpacity style={globals.navItem} onPress={() => navigation.navigate("Albuns")}>
+        <TouchableOpacity
+          style={globals.navItem}
+          onPress={() => navigation.navigate("Albuns")}
+        >
           <Text style={[globals.navIcon, globals.activeNav]}>🎵</Text>
           <Text style={[globals.navLabel, globals.activeNav]}>Álbuns</Text>
         </TouchableOpacity>
