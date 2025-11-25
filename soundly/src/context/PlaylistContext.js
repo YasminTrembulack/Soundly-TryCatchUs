@@ -17,6 +17,16 @@ export function PlaylistProvider({ children }) {
     return data ? JSON.parse(data) : [];
   }
 
+  async function getPlaylistsByUserId(userId) {
+    const stored = await readPlaylists();    
+    return stored.filter((p) => p.userId === userId);
+  }
+
+  async function getPlaylistsById(id) {
+    const stored = await readPlaylists();
+    return stored.find((p) => p.id === id);
+  }
+
   // ======================
   // 🔹 Salvar playlists
   // ======================
@@ -28,7 +38,7 @@ export function PlaylistProvider({ children }) {
   // ======================
   // 🔹 Criar playlist
   // ======================
-  async function createPlaylist(playlistName, userId) {
+  async function createPlaylist(playlistName, userId, icon) {
     const stored = await readPlaylists();
 
     const exists = stored.some(
@@ -39,9 +49,10 @@ export function PlaylistProvider({ children }) {
     const newPlaylist = {
       id: Date.now().toString(),
       playlistName,
+      icon,
       userId,
       created_at: new Date().toISOString(),
-      musics: [],
+      tracks: [],
     };
 
     const updated = [...stored, newPlaylist];
@@ -85,10 +96,15 @@ export function PlaylistProvider({ children }) {
     const playlist = stored.find((p) => p.id === playlistId);
     if (!playlist) throw new Error("Playlist não encontrada!");
 
-    if (!playlist.musics.includes(musicId)) {
-      playlist.musics.push(musicId);
+    if (!playlist.tracks) playlist.tracks = [];
+
+    if (!playlist.tracks.includes(musicId)) {
+      playlist.tracks.push(musicId);
       await savePlaylists(stored);
     }
+    console.log("addMusicToPlaylist");
+    console.log(playlist);
+    
   }
 
   // ======================
@@ -99,7 +115,7 @@ export function PlaylistProvider({ children }) {
     const playlist = stored.find((p) => p.id === playlistId);
     if (!playlist) throw new Error("Playlist não encontrada!");
 
-    playlist.musics = playlist.musics.filter((id) => id !== musicId);
+    playlist.tracks = playlist.tracks.filter((id) => id !== musicId);
     await savePlaylists(stored);
   }
 
@@ -109,7 +125,7 @@ export function PlaylistProvider({ children }) {
   async function isMusicInPlaylist(playlistId, musicId) {
     const stored = await readPlaylists();
     const playlist = stored.find((p) => p.id === playlistId);
-    return playlist ? playlist.musics.includes(musicId) : false;
+    return playlist ? playlist.tracks.includes(musicId) : false;
   }
 
   // ======================
@@ -135,6 +151,8 @@ export function PlaylistProvider({ children }) {
         getAllPlaylists,
         addMusicToPlaylist,
         removeMusicFromPlaylist,
+        getPlaylistsById,
+        getPlaylistsByUserId,
         isMusicInPlaylist,
       }}
     >

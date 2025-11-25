@@ -2,14 +2,24 @@
 import { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { UserProvider } from "./src/context/UserContext";
+import { PlaylistProvider } from "./src/context/PlaylistContext";
 import RootStackNavigator from "./src/navigation/RootStackNavigator";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 
-import { RobotoCondensed_400Regular, RobotoCondensed_700Bold } from "@expo-google-fonts/roboto-condensed";
-import { AnonymousPro_400Regular, AnonymousPro_700Bold } from "@expo-google-fonts/anonymous-pro";
+import {
+  RobotoCondensed_400Regular,
+  RobotoCondensed_700Bold,
+} from "@expo-google-fonts/roboto-condensed";
+import {
+  AnonymousPro_400Regular,
+  AnonymousPro_700Bold,
+} from "@expo-google-fonts/anonymous-pro";
 import { Caveat_400Regular, Caveat_700Bold } from "@expo-google-fonts/caveat";
-import { NotoSerif_400Regular, NotoSerif_700Bold } from "@expo-google-fonts/noto-serif";
+import {
+  NotoSerif_400Regular,
+  NotoSerif_700Bold,
+} from "@expo-google-fonts/noto-serif";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -42,10 +52,12 @@ export default function App() {
   }
 
   return (
-    <UserProvider>
-      <NavigationContainer>
-        <RootStackNavigator />
-      </NavigationContainer>
-    </UserProvider>
+    <PlaylistProvider>
+      <UserProvider>
+        <NavigationContainer>
+          <RootStackNavigator />
+        </NavigationContainer>
+      </UserProvider>
+    </PlaylistProvider>
   );
 }
