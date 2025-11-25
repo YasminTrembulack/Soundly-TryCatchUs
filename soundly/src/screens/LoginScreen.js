@@ -34,7 +34,7 @@ export default function LoginScreen({ navigation }) {
       const user = await login(username, password);
       if (user) {
         Alert.alert('Sucesso', `Bem-vindo, ${user.username}!`);
-        navigation.navigate('Albuns'); // LINHA ADICIONADA AQUI - NAVEGA PARA ÁLBUNS
+        navigation.navigate('Albuns');
       }
     } catch (error) {
       Alert.alert('Erro', error.message);
