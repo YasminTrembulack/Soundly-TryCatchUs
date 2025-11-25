@@ -11,8 +11,10 @@ import {
   Alert
 } from 'react-native';
 import { UserContext } from '../context/UserContext';
+import { PlaylistContext } from '../context/PlaylistContext';
 
 export default function RegisterScreen({ navigation }) {
+  const { createPlaylist } = useContext(PlaylistContext);
   const { createUser } = useContext(UserContext);
 
   // States para os inputs
@@ -30,18 +32,22 @@ export default function RegisterScreen({ navigation }) {
   const handleRegister = async () => {
     if (!username || !password || !confirmPassword) {
       Alert.alert("Erro", "Preencha todos os campos!");
+      console.log("Erro, Preencha todos os campos!");
       return;
     }
 
     if (password !== confirmPassword) {
       Alert.alert("Erro", "As senhas não coincidem!");
+      console.log("Erro, As senhas não coincidem!");
+
       return;
     }
 
     try {
-      // Cria o usuário no AsyncStorage
-      await createUser(username, password, "user");
+      const newUser = await createUser(username, password, "user");
+      await createPlaylist("Favoritos", newUser.id, "favorites")
       Alert.alert("Sucesso", "Conta criada!");
+      console.log("Sucesso, Conta criada!");
       navigation.navigate("Login");
     } catch (error) {
       Alert.alert("Erro", error.message);
