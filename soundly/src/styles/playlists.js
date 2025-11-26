@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginBottom: 30,
+    // marginBottom: 15,
   },
   title: {
     fontFamily: "Caveat_400Regular",
@@ -24,7 +24,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: colors.text,
     textAlign: 'center',
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   playlistCard: {
     backgroundColor: colors.cardBackground,

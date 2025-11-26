@@ -5,12 +5,23 @@ export default StyleSheet.create({
   header: {
     alignItems: "center",
     marginBottom: 20,
+    marginTop: 20
   },
   container: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
     padding: 20,
     backgroundColor: colors.background,
+    justifyContent: "space-between",
+  },
+  containerMainPage: {
+    marginBottom: 75,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: colors.light,
+    fontWeight: "600",
   },
   soundly: {
     fontFamily: "Caveat_400Regular",
@@ -50,6 +61,9 @@ export default StyleSheet.create({
     color: colors.light,
     textAlign: "center",
   },
+  textView: {
+    padding: 30,
+  },
   input: {
     width: "100%",
     fontFamily: "AnonymousPro_400Regular",
@@ -63,6 +77,14 @@ export default StyleSheet.create({
   button: {
     width: "100%",
     backgroundColor: colors.tekhelet,
+    padding: 12,
+    borderRadius: 18,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  secundaryButton: {
+    width: "100%",
+    backgroundColor: colors.dark,
     padding: 12,
     borderRadius: 18,
     alignItems: "center",
@@ -90,7 +112,7 @@ export default StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    zIndex: 10
+    zIndex: 10,
   },
   navItem: {
     flex: 1,

@@ -1,11 +1,11 @@
 // src/screens/AlbunsScreen.js
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import globals from "../styles/globals";
 import styles from "../styles/albuns";
 import colors from "../styles/colors";
-import { 
-  View, 
-  Text, 
+import {
+  View,
+  Text,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -15,7 +15,7 @@ import {
 
 import { getData } from "../services/apiHelpers";
 import { getMainArtist } from "../utils/getMainArtist";
-
+import Nav from "../components/nav/nav";
 
 export default function AlbunsScreen({ navigation }) {
   const [albums, setAlbums] = useState([]);
@@ -32,6 +32,7 @@ export default function AlbunsScreen({ navigation }) {
 
   async function carregarAlbums(params = {}) {
     const currentPage = params.page || page;
+    const text = params.searchText ?? searchText;
 
     if (!params.silent) setLoading(true);
 
@@ -42,9 +43,9 @@ export default function AlbunsScreen({ navigation }) {
       };
 
       // aplica somente o filtro selecionado
-      if (searchText.trim() !== "") {
-        if (filterType === "title") query.title = searchText.trim();
-        if (filterType === "artist") query.artist = searchText.trim();
+      if (text.trim() !== "") {
+        if (filterType === "title") query.title = text.trim();
+        if (filterType === "artist") query.artist = text.trim();
       }
 
       const dados = await getData("/albums", query);
@@ -65,9 +66,8 @@ export default function AlbunsScreen({ navigation }) {
 
   function limparFiltros() {
     setSearchText("");
-    setSearchText("");
     setPage(1);
-    carregarAlbums({ page: 1 });
+    carregarAlbums({ page: 1, searchText: "" });
   }
 
   function carregarMais(direction) {
@@ -85,186 +85,168 @@ export default function AlbunsScreen({ navigation }) {
     carregarAlbums();
   }, [filterType]);
 
-  if (loading) {
-    return (
-      <View style={globals.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.accent} />
-        <Text style={globals.loadingText}>Carregando álbuns...</Text>
-      </View>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <View style={globals.loadingContainer}>
+  //       <ActivityIndicator size="large" color={colors.accent} />
+  //       <Text style={globals.loadingText}>Carregando álbuns...</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
-    <View style={globals.container}>
-      {/* HEADER */}
-      <View style={globals.header}>
-        <Text style={globals.title}>SoundLY</Text>
-        <Text style={globals.screenTitle}>Álbuns</Text>
-      </View>
-
-      {/* SEARCH + BUTTON */}
-      <View style={styles.searchContainer}>
-        <Text style={styles.searchIcon}>🔍</Text>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Pesquisar..."
-          placeholderTextColor={colors.light}
-          value={searchText}
-          onChangeText={(txt) => setSearchText(txt)}
-        />
-
-        <TouchableOpacity
-          onPress={aplicarFiltro}
-          style={{
-            backgroundColor: colors.primary,
-            paddingVertical: 6,
-            paddingHorizontal: 12,
-            borderRadius: 8,
-            marginLeft: 8,
-          }}
-        >
-          <Text style={{ color: colors.text, fontWeight: "bold" }}>Buscar</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* FILTERS */}
-      <View style={styles.filtersContainer}>
-        <Text style={styles.filtersTitle}>FILTROS</Text>
-
-        <TouchableOpacity
-          onPress={limparFiltros}
-          style={{
-            paddingVertical: 6,
-            paddingHorizontal: 14,
-            borderRadius: 6,
-            marginRight: 8,
-            backgroundColor: colors.dark,
-          }}
-        >
-          <Text style={{ color: colors.text }}>Limpar Filtros</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => setFilterType("title")}
-          style={{
-            paddingVertical: 6,
-            paddingHorizontal: 14,
-            borderRadius: 6,
-            marginRight: 8,
-            backgroundColor:
-              filterType === "title" ? colors.primary : colors.dark,
-          }}
-        >
-          <Text style={{ color: colors.text }}>Título</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => setFilterType("artist")}
-          style={{
-            paddingVertical: 6,
-            paddingHorizontal: 14,
-            borderRadius: 6,
-            marginRight: 8,
-            backgroundColor:
-              filterType === "artist" ? colors.primary : colors.dark,
-          }}
-        >
-          <Text style={{ color: colors.text }}>Artista</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* ALBUM GRID */}
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 10 }}
-      >
-        <View style={styles.albumsGrid}>
-          {albums.map((album) => (
-            <TouchableOpacity
-              key={album.id}
-              style={styles.albumCard}
-              onPress={() =>
-                navigation.navigate("DetalhesA", { albumId: album.id })
-              }
-            >
-              <Image
-                source={{ uri: album.images[0].url }}
-                style={styles.albumImage}
-              />
-              <View style={styles.imageOverlay} />
-
-              <View style={styles.albumInfo}>
-                <Text style={styles.albumTitle} numberOfLines={1}>
-                  {album.name}
-                </Text>
-                <Text style={styles.albumArtist} numberOfLines={1}>
-                  {getMainArtist(album)}
-                </Text>
-                <Text style={styles.albumYear}>{album.year}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-
-          {/* PREVIOUS PAGE */}
-          {pagination?.has_previous && (
-            <TouchableOpacity
-              onPress={() => carregarMais(-1)}
-              disabled={loadingMore}
-              style={globals.button}
-            >
-              {loadingMore ? (
-                <ActivityIndicator color={colors.text} />
-              ) : (
-                <Text style={globals.buttonText}>
-                  Página anterior
-                </Text>
-              )}
-            </TouchableOpacity>
-          )}
-
-          {/* NEXT PAGE */}
-          {pagination?.has_next && (
-            <TouchableOpacity
-              onPress={() => carregarMais(1)}
-              disabled={loadingMore}
-              style={globals.button}
-            >
-              {loadingMore ? (
-                <ActivityIndicator color={colors.text} />
-              ) : (
-                <Text style={globals.buttonText}>
-                  Próxima página
-                </Text>
-              )}
-            </TouchableOpacity>
-          )}
+    <>
+      <View style={[globals.container, globals.containerMainPage]}>
+        {/* HEADER */}
+        <View style={globals.header}>
+          <Text style={globals.title}>SoundLY</Text>
+          <Text style={globals.screenTitle}>Álbuns</Text>
         </View>
-      </ScrollView>
 
-      {/* NAV */}
-      <View style={globals.bottomNav}>
-        <TouchableOpacity style={globals.navItem} onPress={() => navigation.navigate("Albuns")}>
-          <Text style={[globals.navIcon, globals.activeNav]}>🎵</Text>
-          <Text style={[globals.navLabel, globals.activeNav]}>Álbuns</Text>
-        </TouchableOpacity>
+        {/* SEARCH + BUTTON */}
+        <View style={styles.searchContainer}>
+          <Text style={styles.searchIcon}>🔍</Text>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Pesquisar..."
+            placeholderTextColor={colors.light}
+            value={searchText}
+            onChangeText={(txt) => setSearchText(txt)}
+          />
 
-        <TouchableOpacity
-          style={globals.navItem}
-          onPress={() => navigation.navigate("Playlists")}
+          <TouchableOpacity
+            onPress={aplicarFiltro}
+            style={{
+              backgroundColor: colors.primary,
+              paddingVertical: 6,
+              paddingHorizontal: 12,
+              borderRadius: 8,
+              marginLeft: 8,
+            }}
+          >
+            <Text style={{ color: colors.text, fontWeight: "bold" }}>
+              Buscar
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* FILTERS */}
+        <View style={styles.filtersContainer}>
+          {/* <Text style={styles.filtersTitle}>FILTROS</Text> */}
+
+          <TouchableOpacity onPress={limparFiltros} style={styles.filterTag}>
+            <Text style={styles.filterTagText}>Limpar Filtros</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setFilterType("title")}
+            style={[
+              styles.filterTag,
+              {
+                backgroundColor:
+                  filterType === "title" ? colors.primary : colors.dark,
+              },
+            ]}
+          >
+            <Text style={styles.filterTagText}>Título</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setFilterType("artist")}
+            style={[
+              styles.filterTag,
+              {
+                backgroundColor:
+                  filterType === "artist" ? colors.primary : colors.dark,
+              },
+            ]}
+          >
+            <Text style={styles.filterTagText}>Artista</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* ALBUM GRID */}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingBottom: 10 }}
         >
-          <Text style={globals.navIcon}>📋</Text>
-          <Text style={globals.navLabel}>Playlists</Text>
-        </TouchableOpacity>
+          {albums.length === 0 ? (
+            <View style={globals.textView}>
+              <Text style={globals.text}>Nenhum album encontrado.</Text>
+            </View>
+          ) : (
+            <View style={styles.albumsGrid}>
+              {loading ? (
+                <View style={[globals.loadingContainer, {marginTop: 10}]}>
+                  <ActivityIndicator size="large" color={colors.accent} />
+                  <Text style={globals.loadingText}>Carregando álbuns...</Text>
+                </View>
+              ) : (
+                albums.map((album) => (
+                  <TouchableOpacity
+                    key={album.id}
+                    style={styles.albumCard}
+                    onPress={() =>
+                      navigation.navigate("Detalhes", {
+                        id: album.id,
+                        type: "album",
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: album.images[0].url }}
+                      style={styles.albumImage}
+                    />
+                    <View style={styles.imageOverlay} />
 
-        <TouchableOpacity
-          style={globals.navItem}
-          onPress={() => navigation.navigate("Perfil")}
-        >
-          <Text style={globals.navIcon}>👤</Text>
-          <Text style={globals.navLabel}>Perfil</Text>
-        </TouchableOpacity>
+                    <View style={styles.albumInfo}>
+                      <Text style={styles.albumTitle} numberOfLines={1}>
+                        {album.name}
+                      </Text>
+                      <Text style={styles.albumArtist} numberOfLines={1}>
+                        {getMainArtist(album)}
+                      </Text>
+                      <Text style={styles.albumYear}>{album.year}</Text>
+                    </View>
+                  </TouchableOpacity>
+                ))
+              )}
+
+              {/* PREVIOUS PAGE */}
+              {pagination?.has_previous && !loading && (
+                <TouchableOpacity
+                  onPress={() => carregarMais(-1)}
+                  disabled={loadingMore}
+                  style={globals.button}
+                >
+                  {loadingMore ? (
+                    <ActivityIndicator color={colors.text} />
+                  ) : (
+                    <Text style={globals.buttonText}>Página anterior</Text>
+                  )}
+                </TouchableOpacity>
+              )}
+
+              {/* NEXT PAGE */}
+              {pagination?.has_next && !loading && (
+                <TouchableOpacity
+                  onPress={() => carregarMais(1)}
+                  disabled={loadingMore}
+                  style={globals.button}
+                >
+                  {loadingMore ? (
+                    <ActivityIndicator color={colors.text} />
+                  ) : (
+                    <Text style={globals.buttonText}>Próxima página</Text>
+                  )}
+                </TouchableOpacity>
+              )}
+            </View>
+          )}
+        </ScrollView>
       </View>
-    </View>
+      <Nav navigation={navigation}></Nav>
+    </>
   );
 }

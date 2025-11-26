@@ -25,6 +25,28 @@ export default StyleSheet.create({
   },
   filtersContainer: {
     marginBottom: 16,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
+    flexWrap: "wrap",
+    width: "100%",
+    gap: 8,
+  },
+  filterTag: {
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    borderRadius: 6,
+    backgroundColor: colors.dark,
+    alignSelf: "flex-start",
+    width: "30%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  filterTagText: {
+    fontSize: 12,
+    color: colors.text
   },
   filtersTitle: {
     fontSize: 16,
@@ -89,5 +111,4 @@ export default StyleSheet.create({
     color: colors.light,
     marginTop: 10,
   },
-
 });
