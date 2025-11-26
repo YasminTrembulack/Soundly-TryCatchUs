@@ -46,7 +46,6 @@ export default function DetailsScreen({ route, navigation }) {
         const comments = await getCommentsByTarget(id);
         setData({ ...res, comments: comments ?? [] });
       }
-      
 
       const userPlaylists = await getPlaylistsByUserId(user.id);
       setPlaylists(userPlaylists);
@@ -117,19 +116,25 @@ export default function DetailsScreen({ route, navigation }) {
         </View>
         {type === "playlist" ? (
           <View style={{ display: "flex", flexDirection: "row", gap: "4%" }}>
+            {data.playlistName !== "Favoritos" && (
+              <TouchableOpacity
+                style={[
+                  globals.button,
+                  { marginTop: 10, marginBottom: 10, width: "48%" },
+                ]}
+                onPress={async () => {
+                  await deletePlaylist(data.id);
+                  navigation.navigate("Playlists");
+                }}
+              >
+                <Text style={globals.buttonText}>Deletar playlist</Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               style={[
                 globals.button,
                 { marginTop: 10, marginBottom: 10, width: "48%" },
-              ]}
-              // onPress={}
-            >
-              <Text style={globals.buttonText}>Deletar playlist</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                globals.button,
-                { marginTop: 10, marginBottom: 10, width: "48%" },
+                data.playlistName === "Favoritos" && { width: "100%" },
                 removeMode && { backgroundColor: colors.dark },
               ]}
               onPress={async () => {
