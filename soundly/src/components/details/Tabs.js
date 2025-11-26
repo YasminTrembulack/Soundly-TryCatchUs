@@ -20,7 +20,7 @@ export default function Tabs({ type, activeTab, setActiveTab }) {
         </TouchableOpacity>
       )}
 
-      {type === "track" && (
+      {type === "track" || type === "album" && (
         <TouchableOpacity
           style={[styles.tab, activeTab === "Ações" && styles.activeTab]}
           onPress={() => setActiveTab("Ações")}

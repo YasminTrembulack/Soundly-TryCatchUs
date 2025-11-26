@@ -23,7 +23,7 @@ export default function PlaylistsScreen({ route, navigation }) {
 
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [addTrack, setAddTrack] = useState(null);
+  const [addTrack, setAddTrack] = useState({});
   const [playlistStatus, setPlaylistStatus] = useState({});
 
   // Carrega playlists do usuário
@@ -45,7 +45,7 @@ export default function PlaylistsScreen({ route, navigation }) {
 
   useFocusEffect(
     useCallback(() => {
-      const { addTrack = null } = route.params ?? {};
+      const { addTrack = {} } = route.params ?? {};
 
       setAddTrack(addTrack);
 
@@ -58,8 +58,20 @@ export default function PlaylistsScreen({ route, navigation }) {
       if (!addTrack || playlists.length === 0) return;
 
       const status = {};
+
       for (const p of playlists) {
-        status[p.id] = await isMusicInPlaylist(p.id, addTrack);
+        let allInside = true;
+
+        for (const trackId of addTrack.tracksId) {
+          const exists = await isMusicInPlaylist(p.id, trackId);
+
+          if (!exists) {
+            allInside = false;
+            break; // já achou uma que não está → pode parar
+          }
+        }
+
+        status[p.id] = allInside;
       }
       setPlaylistStatus(status);
     }
@@ -110,13 +122,24 @@ export default function PlaylistsScreen({ route, navigation }) {
                   },
                 ]}
                 onPress={async () => {
-                  if(playlistStatus[playlist.id]) return;
-                  if (addTrack) {
-                    await addMusicToPlaylist(playlist.id, addTrack);
+                  if (playlistStatus[playlist.id]) return;
+                  console.log("addTrack");
+                  console.log(addTrack);
+                  
+                  if (addTrack && Object.keys(addTrack).length > 0) {
+                    for (const trackId in addTrack.tracksId) {
+                      await addMusicToPlaylist(playlist.id, trackId);
+                    }
                     setPlaylistStatus((prev) => ({
                       ...prev,
                       [playlist.id]: true,
                     }));
+                    navigation.setParams({ addTrack: null });
+                    setPlaylistStatus({})
+                    navigation.navigate("Detalhes", {
+                      id: addTrack.albumId ?? addTrack.tracksId[0],
+                      type: addTrack.type,
+                    });
                   }
                   navigation.setParams({ addTrack: null });
                   setPlaylistStatus({})
@@ -124,8 +147,6 @@ export default function PlaylistsScreen({ route, navigation }) {
                     id: playlist.id,
                     type: "playlist",
                   });
-
-                  
                 }}
               >
                 <View style={styles.playlistIcon}>

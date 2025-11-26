@@ -198,7 +198,14 @@ export default function TabContent({
       <TouchableOpacity
         style={globals.button}
         onPress={() => {
-          navigation.navigate("Playlists", { addTrack: data.id });
+          const tracksId =
+            type === "album" ? (data.tracks ?? []).map((t) => t.id) : [data.id];
+          
+          const albumId = type === "album" ? data.id : null;
+
+          navigation.navigate("Playlists", {
+            addTrack: { tracksId, type, albumId },
+          });
         }}
       >
         <Text style={globals.buttonText}>Adicionar a playlist</Text>
