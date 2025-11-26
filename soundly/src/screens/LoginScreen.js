@@ -73,6 +73,7 @@ export default function LoginScreen({ navigation }) {
           onPress={async () => {
             await AsyncStorage.removeItem("@Soundly:playlists");
             await AsyncStorage.removeItem("@Soundly:users");
+            await AsyncStorage.removeItem("@Soundly:comments");
           }}
         >
           <Text style={styles.buttonText}>Resetar BD</Text>
