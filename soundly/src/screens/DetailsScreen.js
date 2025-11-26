@@ -16,10 +16,12 @@ import HeaderImage from "../components/details/HeaderImage";
 import InfoSection from "../components/details/InfoSection";
 
 export default function DetailsScreen({ route, navigation }) {
-  const { getPlaylistsById, getPlaylistsByUserId, addMusicToPlaylist } =
+  const { getPlaylistsById, getPlaylistsByUserId, removeMusicFromPlaylist } =
     useContext(PlaylistContext);
   const { user } = useContext(UserContext);
 
+  const [removeMode, setRemoveMode] = useState(false);
+  const [selectedTracks, setSelectedTracks] = useState([]);
   const [type, setType] = useState(null);
   const [data, setData] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
@@ -89,7 +91,44 @@ export default function DetailsScreen({ route, navigation }) {
           <HeaderImage type={type} data={data} />
           <InfoSection type={type} data={data} />
         </View>
+        {type === "playlist" ? (
+          <View style={{ display: "flex", flexDirection: "row", gap: "4%" }}>
+            <TouchableOpacity
+              style={[
+                globals.button,
+                { marginTop: 10, marginBottom: 10, width: "48%" },
+              ]}
+              // onPress={}
+            >
+              <Text style={globals.buttonText}>Deletar playlist</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globals.button,
+                { marginTop: 10, marginBottom: 10, width: "48%" },
+                removeMode && { backgroundColor: colors.dark },
+              ]}
+              onPress={async () => {
+                if (removeMode) {
+                  // Concluir → remover músicas selecionadas
+                  for (const trackId of selectedTracks) {
+                    await removeMusicFromPlaylist(data.id, trackId);
+                  }
 
+                  // Recarregar dados após remover
+                  carregarDados(data.id, "playlist");
+                  setSelectedTracks([]);
+                }
+
+                setRemoveMode(!removeMode);
+              }}
+            >
+              <Text style={globals.buttonText}>
+                {removeMode ? "Concluir" : "Remover músicas"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
         <Tabs type={type} activeTab={activeTab} setActiveTab={setActiveTab} />
 
         <TabContent
@@ -98,7 +137,9 @@ export default function DetailsScreen({ route, navigation }) {
           activeTab={activeTab}
           navigation={navigation}
           playlists={playlists}
-          addMusicToPlaylist={addMusicToPlaylist}
+          removeMode={removeMode}
+          selectedTracks={selectedTracks}
+          setSelectedTracks={setSelectedTracks}
         />
       </View>
     </View>

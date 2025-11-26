@@ -41,14 +41,14 @@ export default StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 24,
+    // padding: 24,
   },
   
   // Informações do Álbum
   albumHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 10,
   },
   coverImage: {
     width: 120,
@@ -119,7 +119,7 @@ export default StyleSheet.create({
     backgroundColor: colors.persian,
     padding: 12,
     borderRadius: 8,
-    marginBottom: 10,
+    // marginBottom: 10,
     borderWidth: 1,
     borderColor: colors.primary,
   },
@@ -153,7 +153,7 @@ export default StyleSheet.create({
   trackDuration: {
     fontFamily: "RobotoCondensed_700Bold",
     fontSize: 14,
-    color: colors.secondary,
+    color: colors.light,
     marginLeft: 10,
   },
 });

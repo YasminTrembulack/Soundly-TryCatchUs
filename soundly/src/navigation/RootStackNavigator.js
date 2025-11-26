@@ -4,6 +4,7 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import AlbunsScreen from '../screens/AlbunsScreen';
 import PlaylistsScreen from '../screens/PlaylistsScreen';
+import CreatePlaylistScreen from '../screens/CreatePlaylistScreen';
 import PerfilScreen from '../screens/PerfilScreen';
 
 import DetailsScreen from '../screens/DetailsScreen';
@@ -23,6 +24,7 @@ export default function RootStackNavigator() {
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Albuns" component={AlbunsScreen} />
       <Stack.Screen name="Playlists" component={PlaylistsScreen} />
+      <Stack.Screen name="CriarPlaylist" component={CreatePlaylistScreen} />
       <Stack.Screen name="Perfil" component={PerfilScreen} />
       <Stack.Screen name="Detalhes" component={DetailsScreen} />
     </Stack.Navigator>

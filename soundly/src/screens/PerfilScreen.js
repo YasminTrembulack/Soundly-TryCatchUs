@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import globals from "../styles/globals";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { UserContext } from "../context/UserContext";
+import Nav from "../components/nav/nav";
 
 const colors = {
   primary: "#7B2CBF",
@@ -100,46 +101,25 @@ export default function PerfilScreen({ navigation }) {
   };
 
   return (
-    <View style={globals.container}>
-      <View style={globals.header}>
-        <Text style={styles.title}>SoundLY</Text>
-        <Text style={styles.screenTitle}>Perfil</Text>
-      </View>
+    <>
+      <View  style={[globals.container, globals.containerMainPage]}>
+        <View style={globals.header}>
+          <Text style={styles.title}>SoundLY</Text>
+          <Text style={styles.screenTitle}>Perfil</Text>
+        </View>
 
-      <View style={styles.card}>
-        <Text style={styles.cardText}>
-          Usuário: {user?.username || "Visitante"}
-        </Text>
-        <Text style={styles.cardText}>Tipo: {user?.role || "Usuário"}</Text>
-      </View>
+        <View style={styles.card}>
+          <Text style={styles.cardText}>
+            Usuário: {user?.username || "Visitante"}
+          </Text>
+          <Text style={styles.cardText}>Tipo: {user?.role || "Usuário"}</Text>
+        </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Sair</Text>
-      </TouchableOpacity>
-
-      {/* Bottom Navigation */}
-      <View style={globals.bottomNav}>
-        <TouchableOpacity style={globals.navItem} onPress={() => navigation.navigate("Albuns")}>
-          <Text style={[globals.navIcon, globals.activeNav]}>🎵</Text>
-          <Text style={[globals.navLabel, globals.activeNav]}>Álbuns</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={globals.navItem}
-          onPress={() => navigation.navigate("Playlists")}
-        >
-          <Text style={globals.navIcon}>📋</Text>
-          <Text style={globals.navLabel}>Playlists</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={globals.navItem}
-          onPress={() => navigation.navigate("Perfil")}
-        >
-          <Text style={globals.navIcon}>👤</Text>
-          <Text style={globals.navLabel}>Perfil</Text>
+        <TouchableOpacity style={styles.button} onPress={handleLogout}>
+          <Text style={styles.buttonText}>Sair</Text>
         </TouchableOpacity>
       </View>
-    </View>
+      <Nav navigation={navigation}></Nav>
+    </>
   );
 }

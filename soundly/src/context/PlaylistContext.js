@@ -54,7 +54,9 @@ export function PlaylistProvider({ children }) {
       created_at: new Date().toISOString(),
       tracks: [],
     };
+    console.log("newPlaylist:", newPlaylist);
 
+    
     const updated = [...stored, newPlaylist];
     await savePlaylists(updated);
     return newPlaylist;
@@ -125,6 +127,8 @@ export function PlaylistProvider({ children }) {
   async function isMusicInPlaylist(playlistId, musicId) {
     const stored = await readPlaylists();
     const playlist = stored.find((p) => p.id === playlistId);
+    console.log(playlist.tracks);
+
     return playlist ? playlist.tracks.includes(musicId) : false;
   }
 
