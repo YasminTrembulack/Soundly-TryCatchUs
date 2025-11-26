@@ -1,5 +1,7 @@
 // src/screens/LoginScreen.js
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useState } from "react";
+
 import globals from "../styles/globals";
 import styles from "../styles/auth";
 import colors from "../styles/colors";
@@ -64,6 +66,14 @@ export default function LoginScreen({ navigation }) {
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>ENTRAR</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}
+          onPress={async () => {
+            await AsyncStorage.removeItem("@Soundly:playlists");
+            await AsyncStorage.removeItem("@Soundly:users");
+          }}
+        >
+          <Text style={styles.buttonText}>Resetar BD</Text>
         </TouchableOpacity>
 
         <View style={styles.authContainer}>

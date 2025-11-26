@@ -70,7 +70,7 @@ export default function DetailsScreen({ route, navigation }) {
     <View style={globals.container}>
       <TouchableOpacity
         style={styles.backIconFloating}
-        onPress={() => navigation.goBack()}
+        onPress={() => {type=== "playlist"? navigation.navigate("Playlists") : navigation.goBack()}}
       >
         <Text style={styles.backIconText}>↶</Text>
       </TouchableOpacity>

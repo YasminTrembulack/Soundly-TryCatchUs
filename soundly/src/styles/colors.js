@@ -11,7 +11,6 @@ export default {
     light: "#C77DFF",
     accent: "#E0AAFF",
     text: "#FFFFFF",
-    textEdit: '#00ffff',
 };
 
 /*

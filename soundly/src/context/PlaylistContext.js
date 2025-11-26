@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState, useEffect } from "react";
+// await AsyncStorage.clear();
 
 export const PlaylistContext = createContext();
 
@@ -127,8 +128,6 @@ export function PlaylistProvider({ children }) {
   async function isMusicInPlaylist(playlistId, musicId) {
     const stored = await readPlaylists();
     const playlist = stored.find((p) => p.id === playlistId);
-    console.log(playlist.tracks);
-
     return playlist ? playlist.tracks.includes(musicId) : false;
   }
 

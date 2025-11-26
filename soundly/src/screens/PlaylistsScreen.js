@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useContext, useState, useCallback } from "react";
+import { useContext, useState, useCallback, useEffect } from "react";
 import globals from "../styles/globals";
 import styles from "../styles/playlists";
 import colors from "../styles/colors";
@@ -16,12 +16,15 @@ import { getPlaylistIcon } from "../utils/getPlaylistIcon";
 import { UserContext } from "../context/UserContext";
 import Nav from "../components/nav/nav";
 
-export default function PlaylistsScreen({ navigation }) {
-  const { getPlaylistsByUserId } = useContext(PlaylistContext);
+export default function PlaylistsScreen({ route, navigation }) {
+  const { getPlaylistsByUserId, addMusicToPlaylist, isMusicInPlaylist } =
+    useContext(PlaylistContext);
   const { user } = useContext(UserContext);
 
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [addTrack, setAddTrack] = useState(null);
+  const [playlistStatus, setPlaylistStatus] = useState({});
 
   // Carrega playlists do usuário
   async function carregarPlaylists() {
@@ -42,9 +45,27 @@ export default function PlaylistsScreen({ navigation }) {
 
   useFocusEffect(
     useCallback(() => {
-      carregarPlaylists(); // sempre recarrega ao voltar
+      const { addTrack = null } = route.params ?? {};
+
+      setAddTrack(addTrack);
+
+      carregarPlaylists();
     }, [user])
   );
+
+  useEffect(() => {
+    async function checkMusic() {
+      if (!addTrack || playlists.length === 0) return;
+
+      const status = {};
+      for (const p of playlists) {
+        status[p.id] = await isMusicInPlaylist(p.id, addTrack);
+      }
+      setPlaylistStatus(status);
+    }
+
+    checkMusic();
+  }, [playlists, addTrack]);
 
   if (loading) {
     return (
@@ -82,19 +103,37 @@ export default function PlaylistsScreen({ navigation }) {
             playlists.map((playlist) => (
               <TouchableOpacity
                 key={playlist.id}
-                style={styles.playlistCard}
-                onPress={() =>
+                style={[
+                  styles.playlistCard,
+                  playlistStatus[playlist.id] && {
+                    borderColor: colors.cardBackground,
+                  },
+                ]}
+                onPress={async () => {
+                  if(playlistStatus[playlist.id]) return;
+                  if (addTrack) {
+                    await addMusicToPlaylist(playlist.id, addTrack);
+                    setPlaylistStatus((prev) => ({
+                      ...prev,
+                      [playlist.id]: true,
+                    }));
+                  }
+                  navigation.setParams({ addTrack: null });
+                  setPlaylistStatus({})
                   navigation.navigate("Detalhes", {
                     id: playlist.id,
                     type: "playlist",
-                  })
-                }
+                  });
+
+                  
+                }}
               >
                 <View style={styles.playlistIcon}>
                   <Text style={{ fontSize: 18 }}>
                     {getPlaylistIcon(playlist.icon)}
                   </Text>
                 </View>
+
                 <View style={styles.playlistContent}>
                   <Text style={styles.playlistTitle}>
                     {playlist.playlistName}

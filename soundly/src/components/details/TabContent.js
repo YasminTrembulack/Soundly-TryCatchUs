@@ -25,7 +25,6 @@ export default function TabContent({
     useContext(PlaylistContext);
   const [alreadyFav, setAlreadyFav] = useState(false);
 
-
   useEffect(() => {
     const fav = playlists.find((p) => p.playlistName === "Favoritos");
     if (!fav) return;
@@ -130,23 +129,33 @@ export default function TabContent({
 
   // AÇÕES
   return (
-    <TouchableOpacity
-      style={[globals.button, alreadyFav && { backgroundColor: colors.dark }]}
-      onPress={async () => {
-        const fav = playlists.find((p) => p.playlistName === "Favoritos");
+    <View>
+      <TouchableOpacity
+        style={[globals.button, alreadyFav && { backgroundColor: colors.dark }]}
+        onPress={async () => {
+          const fav = playlists.find((p) => p.playlistName === "Favoritos");
 
-        if (alreadyFav) {
-          await removeMusicFromPlaylist(fav.id, data.id);
-          setAlreadyFav(false);
-        } else {
-          await addMusicToPlaylist(fav.id, data.id);
-          setAlreadyFav(true);
-        }
-      }}
-    >
-      <Text style={globals.buttonText}>
-        {alreadyFav ? "Remover dos Favoritos ✘" : "Favoritar ❤"}
-      </Text>
-    </TouchableOpacity>
+          if (alreadyFav) {
+            await removeMusicFromPlaylist(fav.id, data.id);
+            setAlreadyFav(false);
+          } else {
+            await addMusicToPlaylist(fav.id, data.id);
+            setAlreadyFav(true);
+          }
+        }}
+      >
+        <Text style={globals.buttonText}>
+          {alreadyFav ? "Remover dos Favoritos ✘" : "Favoritar ❤"}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={globals.button}
+        onPress={ () => {
+          navigation.navigate("Playlists", {addTrack: data.id})
+        }}
+      >
+        <Text style={globals.buttonText}>Adicionar a playlist</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
