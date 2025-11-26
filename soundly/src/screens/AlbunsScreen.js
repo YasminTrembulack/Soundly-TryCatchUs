@@ -85,14 +85,14 @@ export default function AlbunsScreen({ navigation }) {
     carregarAlbums();
   }, [filterType]);
 
-  if (loading) {
-    return (
-      <View style={globals.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.accent} />
-        <Text style={globals.loadingText}>Carregando álbuns...</Text>
-      </View>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <View style={globals.loadingContainer}>
+  //       <ActivityIndicator size="large" color={colors.accent} />
+  //       <Text style={globals.loadingText}>Carregando álbuns...</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <>
@@ -177,37 +177,44 @@ export default function AlbunsScreen({ navigation }) {
             </View>
           ) : (
             <View style={styles.albumsGrid}>
-              {albums.map((album) => (
-                <TouchableOpacity
-                  key={album.id}
-                  style={styles.albumCard}
-                  onPress={() =>
-                    navigation.navigate("Detalhes", {
-                      id: album.id,
-                      type: "album",
-                    })
-                  }
-                >
-                  <Image
-                    source={{ uri: album.images[0].url }}
-                    style={styles.albumImage}
-                  />
-                  <View style={styles.imageOverlay} />
+              {loading ? (
+                <View style={[globals.loadingContainer, {marginTop: 10}]}>
+                  <ActivityIndicator size="large" color={colors.accent} />
+                  <Text style={globals.loadingText}>Carregando álbuns...</Text>
+                </View>
+              ) : (
+                albums.map((album) => (
+                  <TouchableOpacity
+                    key={album.id}
+                    style={styles.albumCard}
+                    onPress={() =>
+                      navigation.navigate("Detalhes", {
+                        id: album.id,
+                        type: "album",
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: album.images[0].url }}
+                      style={styles.albumImage}
+                    />
+                    <View style={styles.imageOverlay} />
 
-                  <View style={styles.albumInfo}>
-                    <Text style={styles.albumTitle} numberOfLines={1}>
-                      {album.name}
-                    </Text>
-                    <Text style={styles.albumArtist} numberOfLines={1}>
-                      {getMainArtist(album)}
-                    </Text>
-                    <Text style={styles.albumYear}>{album.year}</Text>
-                  </View>
-                </TouchableOpacity>
-              ))}
+                    <View style={styles.albumInfo}>
+                      <Text style={styles.albumTitle} numberOfLines={1}>
+                        {album.name}
+                      </Text>
+                      <Text style={styles.albumArtist} numberOfLines={1}>
+                        {getMainArtist(album)}
+                      </Text>
+                      <Text style={styles.albumYear}>{album.year}</Text>
+                    </View>
+                  </TouchableOpacity>
+                ))
+              )}
 
               {/* PREVIOUS PAGE */}
-              {pagination?.has_previous && (
+              {pagination?.has_previous && !loading && (
                 <TouchableOpacity
                   onPress={() => carregarMais(-1)}
                   disabled={loadingMore}
@@ -222,7 +229,7 @@ export default function AlbunsScreen({ navigation }) {
               )}
 
               {/* NEXT PAGE */}
-              {pagination?.has_next && (
+              {pagination?.has_next && !loading && (
                 <TouchableOpacity
                   onPress={() => carregarMais(1)}
                   disabled={loadingMore}
