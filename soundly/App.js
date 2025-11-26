@@ -1,11 +1,12 @@
 // App.js - Mantendo sua estrutura atual
-import { useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { UserProvider } from "./src/context/UserContext";
-import { PlaylistProvider } from "./src/context/PlaylistContext";
 import RootStackNavigator from "./src/navigation/RootStackNavigator";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
+import { useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { PlaylistProvider } from "./src/context/PlaylistContext";
+import { CommentProvider } from "./src/context/CommentContext";
+import { UserProvider } from "./src/context/UserContext";
 
 import {
   RobotoCondensed_400Regular,
@@ -52,12 +53,14 @@ export default function App() {
   }
 
   return (
-    <PlaylistProvider>
-      <UserProvider>
-        <NavigationContainer>
-          <RootStackNavigator />
-        </NavigationContainer>
-      </UserProvider>
-    </PlaylistProvider>
+    <CommentProvider>
+      <PlaylistProvider>
+        <UserProvider>
+          <NavigationContainer>
+            <RootStackNavigator />
+          </NavigationContainer>
+        </UserProvider>
+      </PlaylistProvider>
+    </CommentProvider>
   );
 }

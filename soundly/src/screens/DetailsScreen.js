@@ -4,6 +4,7 @@ import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import { getData } from "../services/apiHelpers";
 import { PlaylistContext } from "../context/PlaylistContext";
 import { UserContext } from "../context/UserContext";
+import { CommentContext } from "../context/CommentContext";
 
 import colors from "../styles/colors";
 import globals from "../styles/globals";
@@ -19,6 +20,7 @@ export default function DetailsScreen({ route, navigation }) {
   const { getPlaylistsById, getPlaylistsByUserId, removeMusicFromPlaylist } =
     useContext(PlaylistContext);
   const { user } = useContext(UserContext);
+  const { getCommentsByTarget } = useContext(CommentContext);
 
   const [removeMode, setRemoveMode] = useState(false);
   const [selectedTracks, setSelectedTracks] = useState([]);
@@ -37,11 +39,14 @@ export default function DetailsScreen({ route, navigation }) {
           playlistData.tracks.map((id) => getData(`/tracks/${id}`))
         );
         setData({ ...playlistData, tracks });
+        console.log(playlistData);
       } else {
         const endpoint = type === "track" ? `/tracks/${id}` : `/albums/${id}`;
         const res = await getData(endpoint);
-        setData(res);
+        const comments = await getCommentsByTarget(id);
+        setData({ ...res, comments: comments ?? [] });
       }
+      
 
       const userPlaylists = await getPlaylistsByUserId(user.id);
       setPlaylists(userPlaylists);
@@ -57,7 +62,17 @@ export default function DetailsScreen({ route, navigation }) {
     carregarDados(id, type);
   }, [route.params]);
 
-  if (loading) {
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (route?.params?.id && type !== "playlist") {
+        carregarDados(route.params.id, type);
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation, route.params, type]);
+
+  if (loading || !data) {
     return (
       <View style={globals.loadingContainer}>
         <ActivityIndicator size="large" color={colors.accent} />
@@ -70,7 +85,16 @@ export default function DetailsScreen({ route, navigation }) {
     <View style={globals.container}>
       <TouchableOpacity
         style={styles.backIconFloating}
-        onPress={() => {type=== "playlist"? navigation.navigate("Playlists") : navigation.goBack()}}
+        onPress={() => {
+          type === "playlist"
+            ? navigation.navigate("Playlists")
+            : type === "track"
+            ? navigation.navigate("Detalhes", {
+                id: data.album.id,
+                type: "album",
+              })
+            : navigation.goBack();
+        }}
       >
         <Text style={styles.backIconText}>↶</Text>
       </TouchableOpacity>

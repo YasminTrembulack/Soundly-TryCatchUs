@@ -11,10 +11,16 @@ export default StyleSheet.create({
     // justifyContent: "center",
     padding: 20,
     backgroundColor: colors.background,
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   containerMainPage: {
-    marginBottom: 75
+    marginBottom: 75,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: colors.light,
+    fontWeight: "600",
   },
   soundly: {
     fontFamily: "Caveat_400Regular",
@@ -54,8 +60,8 @@ export default StyleSheet.create({
     color: colors.light,
     textAlign: "center",
   },
-  textView:{
-    padding: 30
+  textView: {
+    padding: 30,
   },
   input: {
     width: "100%",
@@ -105,7 +111,7 @@ export default StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    zIndex: 10
+    zIndex: 10,
   },
   navItem: {
     flex: 1,

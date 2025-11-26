@@ -5,6 +5,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import AlbunsScreen from '../screens/AlbunsScreen';
 import PlaylistsScreen from '../screens/PlaylistsScreen';
 import CreatePlaylistScreen from '../screens/CreatePlaylistScreen';
+import CreateOrEditCommentScreen from '../screens/CreateOrEditCommentScreen';
 import PerfilScreen from '../screens/PerfilScreen';
 
 import DetailsScreen from '../screens/DetailsScreen';
@@ -27,6 +28,7 @@ export default function RootStackNavigator() {
       <Stack.Screen name="CriarPlaylist" component={CreatePlaylistScreen} />
       <Stack.Screen name="Perfil" component={PerfilScreen} />
       <Stack.Screen name="Detalhes" component={DetailsScreen} />
+      <Stack.Screen name="Comentário" component={CreateOrEditCommentScreen} />
     </Stack.Navigator>
   );
 }

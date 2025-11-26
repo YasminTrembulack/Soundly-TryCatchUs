@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabNavigator from "./BottomTabNavigator";
 import AlbumDetailsScreen from "../screens/AlbumDetailsScreen";
 import CreatePlaylistScreen from "../screens/CreatePlaylistScreen";
+import CreateOrEditCommentScreen from "../screens/CreateOrEditCommentScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,11 @@ export default function AppStack() {
         name="CriarPlaylist"
         component={CreatePlaylistScreen}
         options={{ title: "Nova Playlist" }}
+      />
+      <Stack.Screen
+        name="Comentário"
+        component={CreateOrEditCommentScreen}
+        options={{ title: "Criar, Editar ou Deletar Comentário" }}
       />
     </Stack.Navigator>
   );

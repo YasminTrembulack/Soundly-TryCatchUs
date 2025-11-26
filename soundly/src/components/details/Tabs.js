@@ -35,6 +35,21 @@ export default function Tabs({ type, activeTab, setActiveTab }) {
           </Text>
         </TouchableOpacity>
       )}
+      {(type === "album" || type === "track") && (
+        <TouchableOpacity
+          style={[styles.tab, activeTab === "Comentários" && styles.activeTab]}
+          onPress={() => setActiveTab("Comentários")}
+        >
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === "Comentários" && styles.activeTabText,
+            ]}
+          >
+            Comentários
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

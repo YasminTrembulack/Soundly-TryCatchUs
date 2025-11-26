@@ -29,42 +29,43 @@ export default function CreatePlaylistScreen({ navigation }) {
 
   return (
     <View style={globals.container}>
-      <View style={globals.header}>
-        <Text style={globals.title}>SoundLY</Text>
-        <Text style={globals.screenTitle}>Nova Playlist</Text>
-      </View>
-
-      {/* Campo de nome */}
-      <Text style={styles.label}>Nome da playlist</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Minha playlist..."
-        value={name}
-        onChangeText={setName}
-      />
-
-      {/* Seleção de ícone */}
-      <Text style={styles.label}>Ícone (opcional)</Text>
-
-      <ScrollView
-        style={{ maxHeight: 200 }} // controla o tamanho do scroll
-        contentContainerStyle={styles.iconGrid}
-        showsVerticalScrollIndicator={false}
-      >
-        {Object.entries(PLAYLIST_ICONS).map(([key, icon]) => (
-          <TouchableOpacity
-            key={key}
-            style={[
-              styles.iconBox,
-              selectedIcon === key && styles.iconBoxSelected,
-            ]}
-            onPress={() => setSelectedIcon(key)}
-          >
-            <Text style={styles.iconText}>{icon}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
       <View>
+        <View style={globals.header}>
+          <Text style={globals.title}>SoundLY</Text>
+          <Text style={globals.screenTitle}>Nova Playlist</Text>
+        </View>
+
+        {/* Campo de nome */}
+        <Text style={globals.label}>Nome da playlist</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Minha playlist..."
+          value={name}
+          onChangeText={setName}
+        />
+
+        {/* Seleção de ícone */}
+        <Text style={globals.label}>Ícone (opcional)</Text>
+
+        <ScrollView
+          style={{ maxHeight: 200 }} // controla o tamanho do scroll
+          contentContainerStyle={styles.iconGrid}
+          showsVerticalScrollIndicator={false}
+        >
+          {Object.entries(PLAYLIST_ICONS).map(([key, icon]) => (
+            <TouchableOpacity
+              key={key}
+              style={[
+                styles.iconBox,
+                selectedIcon === key && styles.iconBoxSelected,
+              ]}
+              onPress={() => setSelectedIcon(key)}
+            >
+              <Text style={styles.iconText}>{icon}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
         <TouchableOpacity
           style={[globals.button, { marginTop: 20 }]}
           onPress={handleCreate}

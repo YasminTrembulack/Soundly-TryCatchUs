@@ -9,9 +9,14 @@ export default StyleSheet.create({
     marginBottom: 5,
   },
   input: {
-    backgroundColor: colors.cardBackground,
-    padding: 12,
-    borderRadius: 8,
+    height: 50,
+    backgroundColor: colors.inputBackground,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    fontSize: 16,
     color: colors.text,
   },
   iconGrid: {
@@ -20,8 +25,8 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   iconBox: {
-    width: 55,
-    height: 55,
+    width: 50,
+    height: 50,
     backgroundColor: colors.cardBackground,
     borderRadius: 10,
     justifyContent: "center",

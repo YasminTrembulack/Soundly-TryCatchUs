@@ -6,6 +6,7 @@ import { PlaylistContext } from "../../context/PlaylistContext";
 
 import globals from "../../styles/globals";
 import styles from "../../styles/albunsdetails";
+import playlistStyle from "../../styles/playlists";
 import colors from "../../styles/colors";
 
 const FALLBACK_IMG =
@@ -127,6 +128,52 @@ export default function TabContent({
     );
   }
 
+  if (activeTab === "Comentários") {
+    return (
+      <ScrollView style={[styles.tracksList]}>
+        <TouchableOpacity
+          style={[globals.button, { marginBottom: 20 }]}
+          onPress={() =>
+            navigation.navigate("Comentário", {
+              targetId: data.id,
+            })
+          }
+        >
+          <Text style={globals.buttonText}>Adicionar Comentário</Text>
+        </TouchableOpacity>
+        {data.comments.length === 0 ? (
+          <View style={globals.textView}>
+            <Text style={globals.text}>Nenhum comentários encontrado.</Text>
+          </View>
+        ) : (
+          data.comments.map((comment) => (
+            <TouchableOpacity
+              style={playlistStyle.playlistCard}
+              onPress={() =>
+                navigation.navigate("Comentário", {
+                  targetId: data.id,
+                  existingComment: comment,
+                })
+              }
+            >
+              <View style={styles.trackInfo}>
+                <Text style={playlistStyle.playlistTitle}>
+                  {comment.username}
+                </Text>
+                <Text style={playlistStyle.playlistInfo}>{comment.text}</Text>
+              </View>
+
+              <Text style={playlistStyle.playlistDate}>
+                Criado em:{" "}
+                {new Date(comment.created_at).toLocaleDateString("pt-BR")}
+              </Text>
+            </TouchableOpacity>
+          ))
+        )}
+      </ScrollView>
+    );
+  }
+
   // AÇÕES
   return (
     <View>
@@ -150,8 +197,8 @@ export default function TabContent({
       </TouchableOpacity>
       <TouchableOpacity
         style={globals.button}
-        onPress={ () => {
-          navigation.navigate("Playlists", {addTrack: data.id})
+        onPress={() => {
+          navigation.navigate("Playlists", { addTrack: data.id });
         }}
       >
         <Text style={globals.buttonText}>Adicionar a playlist</Text>
